@@ -1,16 +1,15 @@
 <template>
   <div class="v-syntax-highlighted-textarea">
     <pre class="v-syntax-highlighted-code"><code class="language-json">{{ highlightedCode }}</code></pre>
-    <textarea
-      v-model="localValue"
-      :class="['v-syntax-textarea', textareaClass]"
-      :placeholder="placeholder"
-      :rows="rows"
-      :disabled="disabled"
-      :readonly="readonly"
+    <div
+      contenteditable="true"
+      class="v-syntax-textarea"
+      :class="textareaClass"
+      @input="handleInput"
       @scroll="syncScroll"
       spellcheck="false"
-    ></textarea>
+      v-text="localValue"
+    ></div>
   </div>
 </template>
 
@@ -55,7 +54,6 @@ const highlightedCode = computed(() => {
 })
 
 // Sync prop changes to local value
-watch(() => props.modelValue, (newValue) => {
   localValue.value = newValue
 })
 
@@ -64,13 +62,19 @@ watch(localValue, (newValue) => {
   emit('update:modelValue', newValue)
 })
 
+// Sync scroll between contenteditable and pre
 const syncScroll = (event: Event) => {
-  const textarea = event.target as HTMLTextAreaElement
-  const pre = textarea.parentElement?.querySelector('.syntax-highlighted-code') as HTMLElement
-  if (pre) {
-    pre.scrollTop = textarea.scrollTop
-    pre.scrollLeft = textarea.scrollLeft
+  const target = event.target as HTMLElement
+  const preElement = target.parentElement?.querySelector('.v-syntax-highlighted-code') as HTMLElement
+  if (preElement) {
+    preElement.scrollTop = target.scrollTop
+    preElement.scrollLeft = target.scrollLeft
   }
+}
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLElement
+  localValue.value = target.textContent || ''
 }
 
 // Re-highlight when content changes
@@ -119,6 +123,7 @@ watch(highlightedCode, () => {
 
 .v-syntax-textarea {
   width: 100%;
+  min-height: 200px;
   margin: 0;
   padding: 12px 16px;
   font-family: 'Roboto Mono', 'Courier New', monospace;
@@ -134,10 +139,11 @@ watch(highlightedCode, () => {
   white-space: pre-wrap;
   word-wrap: break-word;
   tab-size: 2;
-  resize: vertical;
   box-sizing: border-box;
   z-index: 2;
-  min-height: 200px;
+  /* Contenteditable specific styles */
+  display: block;
+  resize: vertical;
   /* Ensure identical rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -145,6 +151,10 @@ watch(highlightedCode, () => {
   /* Prevent Vuetify overrides */
   font-weight: 400 !important;
   letter-spacing: normal !important;
+  /* Contenteditable behavior */
+  -webkit-user-modify: read-write-plaintext-only;
+  -moz-user-modify: read-write-plaintext-only;
+  user-modify: read-write-plaintext-only;
 }
 
 .v-syntax-textarea:focus {
@@ -180,6 +190,19 @@ watch(highlightedCode, () => {
   .v-syntax-textarea.text-error:focus {
     border-color: #f48fb1;
     box-shadow: 0 0 0 2px rgba(244, 143, 177, 0.2);
+  }
+}
+
+/* Prevent contenteditable default styles */
+.v-syntax-textarea:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .v-syntax-textarea:empty::before {
+    color: rgba(255, 255, 255, 0.5);
   }
 }
 </style>
