@@ -94,6 +94,7 @@ watch(highlightedCode, () => {
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
   margin: 0;
   padding: 12px 16px;
   font-family: 'Roboto Mono', 'Courier New', monospace;
@@ -110,6 +111,10 @@ watch(highlightedCode, () => {
   pointer-events: none;
   z-index: 1;
   box-sizing: border-box;
+  /* Ensure identical rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .v-syntax-textarea {
@@ -133,6 +138,13 @@ watch(highlightedCode, () => {
   box-sizing: border-box;
   z-index: 2;
   min-height: 200px;
+  /* Ensure identical rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Prevent Vuetify overrides */
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
 }
 
 .v-syntax-textarea:focus {
