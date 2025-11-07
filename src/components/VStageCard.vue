@@ -1,86 +1,95 @@
 <template>
-  <v-card class="stage-card" elevation="2">
-    <v-card-title class="stage-header">
-      <div class="stage-info">
-        <span class="stage-number">Stage {{ index + 1 }}</span>
-        <v-chip size="small" color="primary" variant="outlined">
-          {{ getStageType(stage) }}
-        </v-chip>
-      </div>
+  <v-expansion-panel>
+    <v-expansion-panel-title>
+      <v-row align="center">
+        <v-col cols="auto">
+          <span class="stage-number">Stage {{ index + 1 }}</span>
+        </v-col>
+        <v-col cols="auto">
+          <v-chip size="small" color="primary" variant="outlined">
+            {{ selectedStageType || 'Select Type' }}
+          </v-chip>
+        </v-col>
+        <v-col>
+          <v-select
+              v-model="selectedStageType"
+              :items="stageTypeOptions"
+              label="Stage Type"
+              density="compact"
+              hide-details
+              @update:model-value="updateStageType"></v-select>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn-group>
+            <v-btn
+              v-if="index > 0"
+              icon="mdi-arrow-up"
+              size="small"
+              variant="text"
+              @click.stop="$emit('move-up', index)"
+            />
+            <v-btn
+              v-if="index < totalStages - 1"
+              icon="mdi-arrow-down"
+              size="small"
+              variant="text"
+              @click.stop="$emit('move-down', index)"
+            />
+            <v-btn
+              icon="mdi-delete-outline"
+              size="small"
+              color="error"
+              variant="text"
+              @click.stop="$emit('delete', index)"
+            />
+          </v-btn-group>
+        </v-col>
+      </v-row>
+    </v-expansion-panel-title>
 
-      <v-spacer />
-
-      <div class="stage-actions">
-        <v-btn
-          v-if="index > 0"
-          icon="mdi-arrow-up"
-          size="small"
-          variant="text"
-          @click="$emit('move-up', index)"
-        />
-        <v-btn
-          v-if="index < totalStages - 1"
-          icon="mdi-arrow-down"
-          size="small"
-          variant="text"
-          @click="$emit('move-down', index)"
-        />
-        <v-btn
-          icon="mdi-delete"
-          size="small"
-          color="error"
-          variant="text"
-          @click="$emit('delete', index)"
-        />
-      </div>
-    </v-card-title>
-
-    <v-card-text>
-      <v-select
-        v-model="selectedStageType"
-        :items="stageTypeOptions"
-        label="Stage Type"
-        density="compact"
-        @update:model-value="updateStageType"
-      />
-
-      <v-textarea
-        v-model="stageJson"
-        :class="{ 'v-text-field--error': hasErrors }"
-        label="Stage Configuration (JSON)"
-        placeholder='{"$match": {"status": "active"}}'
-        rows="8"
-        auto-grow
-        @update:model-value="updateStageJson"
-      />
-
-      <div v-if="hasErrors" class="validation-errors mt-2">
+    <v-expansion-panel-text>
+      <template v-if="hasErrors">
         <v-alert
-          v-for="error in validationErrors"
-          :key="error"
-          type="error"
-          density="compact"
-          class="mb-1"
+            v-for="error in validationErrors"
+            :key="error"
+            type="error"
+            density="compact"
+            class="mb-1"
         >
           {{ error }}
         </v-alert>
-      </div>
+      </template>
 
-      <div v-if="stagePreview && Object.keys(stagePreview).length > 0" class="stage-preview mt-4">
-        <v-divider class="mb-3" />
-        <h4 class="text-h6 mb-2">Preview</h4>
-        <v-code>
-          <pre>{{ JSON.stringify(stagePreview, null, 2) }}</pre>
-        </v-code>
-      </div>
-    </v-card-text>
-  </v-card>
+      <v-row>
+        <v-col cols="12" md="8">
+          <JsonTextarea
+              v-model="stageJson"
+              :class="{ 'text-error': hasErrors }"
+              label="Stage Configuration (JSON)"
+              placeholder='{"$match": {"status": "active"}}'
+              :rows="8"
+          />
+        </v-col>
+        <v-col cols="12" md="4">
+          <div class="preview-box">
+            <div class="preview-box-label">
+              Preview
+            </div>
+            <div class="preview-box-content">
+              <pre>{{ JSON.stringify(stagePreview, null, 2) }}</pre>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </v-expansion-panel-text>
+  </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import type { AggregationStage } from '../types'
 import { validateAggregationPipeline } from '../validation'
+import JsonTextarea from './JsonTextarea.vue'
 
 interface Props {
   stage: AggregationStage
@@ -154,11 +163,6 @@ const updateStageType = (newType: string) => {
   }
 }
 
-const updateStageJson = () => {
-  validationErrors.value = []
-  updateStage()
-}
-
 const updateStage = () => {
   try {
     const parsedStage = JSON.parse(stageJson.value)
@@ -173,42 +177,39 @@ watch(() => props.stage, (newStage) => {
   stageJson.value = JSON.stringify(newStage, null, 2)
   validationErrors.value = []
 }, { immediate: true })
+
+// Watch for stageJson changes from JsonTextarea
+watch(stageJson, () => {
+  validationErrors.value = []
+  updateStage()
+})
 </script>
 
 <style scoped>
-.stage-card {
-  margin-bottom: 1rem;
+.preview-box {
+  position: relative;
+  width: 100%;
+  background: #F7F7F7;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
-.stage-header {
-  padding-bottom: 8px;
+.preview-box-label {
+  position: absolute;
+  font-size: .9em;
+  color: #818181;
+  padding: .5em 1em;
 }
 
-.stage-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.preview-box-content {
+  padding: 1em;
+  padding-top: 2em;
 }
 
-.stage-number {
-  font-weight: 600;
-}
-
-.stage-actions {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.stage-preview {
-  border-top: 1px solid rgb(var(--v-theme-outline));
-  padding-top: 1rem;
-}
-
-.stage-preview h4 {
-  margin-bottom: 0.5rem;
-}
-
-.validation-errors {
-  margin-top: 0.5rem;
+.preview-box-content pre {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
 }
 </style>

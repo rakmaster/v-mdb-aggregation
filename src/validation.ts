@@ -84,7 +84,10 @@ export function validateAggregationPipeline(jsonString: string): ValidationResul
     validateStage(stage, index, result)
   })
 
-  // Step 4: Check for performance warnings
+  // Step 4: Set isValid based on whether there are any errors
+  result.isValid = result.errors.length === 0
+
+  // Step 5: Check for performance warnings
   checkPerformanceWarnings(pipeline, result)
 
   return result

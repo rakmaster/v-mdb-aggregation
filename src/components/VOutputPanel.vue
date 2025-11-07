@@ -1,29 +1,33 @@
 <template>
-  <div class="v-output-panel">
-    <v-card elevation="1" class="mt-6">
-      <v-card-title>Output</v-card-title>
+  <v-row>
+    <v-col>
+    <v-card>
+      <v-card-title class="d-flex align-center">
+        <span>Output</span>
+        <v-spacer />
+        <v-btn @click="$emit('export')" size="small">
+          Export
+        </v-btn>
+      </v-card-title>
       <v-card-text>
         <v-tabs v-model="activeTab" color="primary">
-          <v-tab value="json">JSON Pipeline</v-tab>
-          <v-tab value="query">MongoDB Query</v-tab>
+          <v-tab value="json">JSON</v-tab>
+          <v-tab value="query">Query</v-tab>
         </v-tabs>
 
         <v-window v-model="activeTab" class="mt-4">
           <v-window-item value="json">
-            <v-code>
-              <pre>{{ pipelineJson }}</pre>
-            </v-code>
+            <pre>{{ pipelineJson }}</pre>
           </v-window-item>
 
           <v-window-item value="query">
-            <v-code>
               <pre>{{ mongodbQuery }}</pre>
-            </v-code>
           </v-window-item>
         </v-window>
       </v-card-text>
     </v-card>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +39,10 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  export: []
+}>()
 
 const activeTab = ref<'json' | 'query'>('json')
 

@@ -40,8 +40,11 @@
     "dev": "vue-tsc --noEmit --watch",
     "prepublishOnly": "npm run build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "prismjs": "^1.30.0"
+  },
   "devDependencies": {
+    "@types/prismjs": "^1.26.5",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
     "typescript": "^5.9.3",

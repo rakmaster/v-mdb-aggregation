@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { VMongoAggregationBuilder } from '@rakmaster/v-mdb-aggregation'
+import VMongoAggregationBuilder from '../../src/components/VMongoAggregationBuilder.vue'
 
 const initialPipeline = [
   { "$match": { "status": "active" } },
