@@ -1,15 +1,14 @@
 <template>
-  <div class="syntax-highlighted-textarea">
-    <pre class="syntax-highlighted-code"><code class="language-json">{{ highlightedCode }}</code></pre>
+  <div class="v-syntax-highlighted-textarea">
+    <pre class="v-syntax-highlighted-code"><code class="language-json">{{ highlightedCode }}</code></pre>
     <textarea
       v-model="localValue"
-      :class="textareaClass"
+      :class="['v-syntax-textarea', textareaClass]"
       :placeholder="placeholder"
       :rows="rows"
       :disabled="disabled"
       :readonly="readonly"
       @scroll="syncScroll"
-      class="syntax-textarea"
       spellcheck="false"
     ></textarea>
   </div>
@@ -82,15 +81,15 @@ watch(highlightedCode, () => {
 }, { immediate: true })
 </script>
 
-<style scoped>
-.syntax-highlighted-textarea {
+<style>
+.v-syntax-highlighted-textarea {
   position: relative;
   width: 100%;
   display: inline-block;
   min-width: 100%;
 }
 
-.syntax-highlighted-code {
+.v-syntax-highlighted-code {
   position: absolute;
   top: 0;
   left: 0;
@@ -100,21 +99,20 @@ watch(highlightedCode, () => {
   font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.5;
-  color: transparent;
-  background: transparent;
-  border: none;
-  outline: none;
+  color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
   overflow: hidden;
   white-space: pre-wrap;
   word-wrap: break-word;
   tab-size: 2;
   pointer-events: none;
   z-index: 1;
-  /* Ensure it matches textarea sizing */
   box-sizing: border-box;
 }
 
-.syntax-textarea {
+.v-syntax-textarea {
   width: 100%;
   margin: 0;
   padding: 12px 16px;
@@ -124,7 +122,7 @@ watch(highlightedCode, () => {
   background: transparent;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 4px;
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.87) !important;
   caret-color: rgba(0, 0, 0, 0.87);
   outline: none;
   overflow: auto;
@@ -134,39 +132,40 @@ watch(highlightedCode, () => {
   resize: vertical;
   box-sizing: border-box;
   z-index: 2;
-  min-height: 200px; /* Minimum height for usability */
+  min-height: 200px;
 }
 
-.syntax-textarea:focus {
+.v-syntax-textarea:focus {
   border-color: #1976d2;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
 }
 
-.syntax-textarea.text-error {
+.v-syntax-textarea.text-error {
   border-color: #d32f2f;
 }
 
-.syntax-textarea.text-error:focus {
+.v-syntax-textarea.text-error:focus {
   border-color: #d32f2f;
   box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
 }
 
 /* Dark theme support */
 @media (prefers-color-scheme: dark) {
-  .syntax-textarea {
+  .v-syntax-textarea {
     caret-color: rgba(255, 255, 255, 0.87);
+    color: rgba(255, 255, 255, 0.87) !important;
   }
 
-  .syntax-textarea:focus {
+  .v-syntax-textarea:focus {
     border-color: #90caf9;
     box-shadow: 0 0 0 2px rgba(144, 202, 249, 0.2);
   }
 
-  .syntax-textarea.text-error {
+  .v-syntax-textarea.text-error {
     border-color: #f48fb1;
   }
 
-  .syntax-textarea.text-error:focus {
+  .v-syntax-textarea.text-error:focus {
     border-color: #f48fb1;
     box-shadow: 0 0 0 2px rgba(244, 143, 177, 0.2);
   }

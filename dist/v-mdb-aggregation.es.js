@@ -1,4 +1,4 @@
-import { defineComponent as se, ref as N, computed as B, watch as G, nextTick as be, createElementBlock as q, openBlock as V, createElementVNode as T, withDirectives as we, toDisplayString as z, normalizeClass as ge, vModelText as _e, resolveComponent as w, createBlock as D, withCtx as h, createVNode as v, createTextVNode as J, createCommentVNode as H, withModifiers as ce, Fragment as W, renderList as re, renderSlot as X } from "vue";
+import { defineComponent as se, ref as N, computed as B, watch as G, nextTick as be, createElementBlock as q, openBlock as V, createElementVNode as T, withDirectives as we, toDisplayString as J, normalizeClass as ge, vModelText as _e, resolveComponent as w, createBlock as D, withCtx as h, createVNode as v, createTextVNode as z, createCommentVNode as H, withModifiers as ce, Fragment as W, renderList as re, renderSlot as X } from "vue";
 const Se = /* @__PURE__ */ new Set([
   "$sum",
   "$avg",
@@ -292,13 +292,13 @@ function De(i, r) {
     }
   }
 }
-var ve = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function Je(i) {
+var fe = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
+function ze(i) {
   return i && i.__esModule && Object.prototype.hasOwnProperty.call(i, "default") ? i.default : i;
 }
-var pe = { exports: {} }, me;
-function ze() {
-  return me || (me = 1, (function(i) {
+var pe = { exports: {} }, ve;
+function Je() {
+  return ve || (ve = 1, (function(i) {
     var r = typeof window < "u" ? window : typeof WorkerGlobalScope < "u" && self instanceof WorkerGlobalScope ? self : {};
     var e = (function(g) {
       var u = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i, f = 0, y = {}, n = {
@@ -937,12 +937,12 @@ function ze() {
                     ee--, U = a.slice(F, R), L.index -= F;
                   } else if (L = x(Q, 0, U, Y), !L)
                     continue;
-                  var te = L.index, ae = L[0], oe = U.slice(0, te), fe = U.slice(te + ae.length), le = F + U.length;
+                  var te = L.index, ae = L[0], oe = U.slice(0, te), de = U.slice(te + ae.length), le = F + U.length;
                   d && le > d.reach && (d.reach = le);
                   var ne = P.prev;
                   oe && (ne = E(t, ne, oe), F += oe.length), S(t, ne, ee);
                   var $e = new $(l, M ? n.tokenize(ae, M) : ae, ie, ae);
-                  if (P = E(t, ne, $e), fe && E(t, P, fe), ee > 1) {
+                  if (P = E(t, ne, $e), de && E(t, P, de), ee > 1) {
                     var ue = {
                       cause: l + "," + m,
                       reach: le
@@ -988,7 +988,7 @@ function ze() {
       }
       return n;
     })(r);
-    i.exports && (i.exports = e), typeof ve < "u" && (ve.Prism = e), e.languages.markup = {
+    i.exports && (i.exports = e), typeof fe < "u" && (fe.Prism = e), e.languages.markup = {
       comment: {
         pattern: /<!--(?:(?!<!--)[\s\S])*?-->/,
         greedy: !0
@@ -1447,8 +1447,8 @@ function ze() {
     })();
   })(pe)), pe.exports;
 }
-var Ue = ze();
-const Re = /* @__PURE__ */ Je(Ue);
+var Ue = Je();
+const Re = /* @__PURE__ */ ze(Ue);
 Prism.languages.json = {
   property: {
     pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?=\s*:)/,
@@ -1474,7 +1474,7 @@ Prism.languages.json = {
   }
 };
 Prism.languages.webmanifest = Prism.languages.json;
-const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highlighted-code" }, We = { class: "language-json" }, Ge = ["placeholder", "rows", "disabled", "readonly"], He = /* @__PURE__ */ se({
+const qe = { class: "v-syntax-highlighted-textarea" }, Be = { class: "v-syntax-highlighted-code" }, We = { class: "language-json" }, Ge = ["placeholder", "rows", "disabled", "readonly"], me = /* @__PURE__ */ se({
   __name: "JsonTextarea",
   props: {
     modelValue: {},
@@ -1509,11 +1509,11 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
       });
     }, { immediate: !0 }), (n, $) => (V(), q("div", qe, [
       T("pre", Be, [
-        T("code", We, z(f.value), 1)
+        T("code", We, J(f.value), 1)
       ]),
       we(T("textarea", {
         "onUpdate:modelValue": $[0] || ($[0] = (x) => u.value = x),
-        class: ge([i.textareaClass, "syntax-textarea"]),
+        class: ge(["v-syntax-textarea", i.textareaClass]),
         placeholder: i.placeholder,
         rows: i.rows,
         disabled: i.disabled,
@@ -1525,12 +1525,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
       ])
     ]));
   }
-}), de = (i, r) => {
-  const e = i.__vccOpts || i;
-  for (const [g, u] of r)
-    e[g] = u;
-  return e;
-}, he = /* @__PURE__ */ de(He, [["__scopeId", "data-v-61737318"]]), Ie = { class: "stage-number" }, Ze = { class: "preview-box" }, Xe = { class: "preview-box-content" }, Ye = /* @__PURE__ */ se({
+}), He = { class: "stage-number" }, Ie = { class: "preview-box" }, Ze = { class: "preview-box-content" }, Xe = /* @__PURE__ */ se({
   __name: "VStageCard",
   props: {
     stage: {},
@@ -1599,7 +1594,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                 default: h(() => [
                   v(C, { cols: "auto" }, {
                     default: h(() => [
-                      T("span", Ie, "Stage " + z(i.index + 1), 1)
+                      T("span", He, "Stage " + J(i.index + 1), 1)
                     ]),
                     _: 1
                   }),
@@ -1611,7 +1606,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                         variant: "outlined"
                       }, {
                         default: h(() => [
-                          J(z(u.value || "Select Type"), 1)
+                          z(J(u.value || "Select Type"), 1)
                         ]),
                         _: 1
                       })
@@ -1680,7 +1675,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                 class: "mb-1"
               }, {
                 default: h(() => [
-                  J(z(l), 1)
+                  z(J(l), 1)
                 ]),
                 _: 2
               }, 1024))), 128)) : H("", !0),
@@ -1691,7 +1686,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                     md: "8"
                   }, {
                     default: h(() => [
-                      v(he, {
+                      v(me, {
                         modelValue: f.value,
                         "onUpdate:modelValue": S[4] || (S[4] = (l) => f.value = l),
                         class: ge({ "text-error": $.value }),
@@ -1707,10 +1702,10 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                     md: "4"
                   }, {
                     default: h(() => [
-                      T("div", Ze, [
+                      T("div", Ie, [
                         S[5] || (S[5] = T("div", { class: "preview-box-label" }, " Preview ", -1)),
-                        T("div", Xe, [
-                          T("pre", null, z(JSON.stringify(x.value, null, 2)), 1)
+                        T("div", Ze, [
+                          T("pre", null, J(JSON.stringify(x.value, null, 2)), 1)
                         ])
                       ])
                     ]),
@@ -1727,7 +1722,12 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
       });
     };
   }
-}), Ke = /* @__PURE__ */ de(Ye, [["__scopeId", "data-v-d84dc298"]]), Qe = /* @__PURE__ */ se({
+}), he = (i, r) => {
+  const e = i.__vccOpts || i;
+  for (const [g, u] of r)
+    e[g] = u;
+  return e;
+}, Ye = /* @__PURE__ */ he(Xe, [["__scopeId", "data-v-d84dc298"]]), Ke = /* @__PURE__ */ se({
   __name: "VOutputPanel",
   props: {
     pipeline: {}
@@ -1752,7 +1752,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                         size: "small"
                       }, {
                         default: h(() => [...n[3] || (n[3] = [
-                          J(" Export ", -1)
+                          z(" Export ", -1)
                         ])]),
                         _: 1
                       })
@@ -1769,13 +1769,13 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                         default: h(() => [
                           v(O, { value: "json" }, {
                             default: h(() => [...n[5] || (n[5] = [
-                              J("JSON", -1)
+                              z("JSON", -1)
                             ])]),
                             _: 1
                           }),
                           v(O, { value: "query" }, {
                             default: h(() => [...n[6] || (n[6] = [
-                              J("Query", -1)
+                              z("Query", -1)
                             ])]),
                             _: 1
                           })
@@ -1790,13 +1790,13 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                         default: h(() => [
                           v(S, { value: "json" }, {
                             default: h(() => [
-                              T("pre", null, z(u.value), 1)
+                              T("pre", null, J(u.value), 1)
                             ]),
                             _: 1
                           }),
                           v(S, { value: "query" }, {
                             default: h(() => [
-                              T("pre", null, z(f.value), 1)
+                              T("pre", null, J(f.value), 1)
                             ]),
                             _: 1
                           })
@@ -1817,10 +1817,10 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
       });
     };
   }
-}), et = /* @__PURE__ */ de(Qe, [["__scopeId", "data-v-b28ddba9"]]), tt = {
+}), Qe = /* @__PURE__ */ he(Ke, [["__scopeId", "data-v-b28ddba9"]]), et = {
   key: 0,
   class: "validation-errors mt-2"
-}, at = { class: "d-flex align-center mb-2" }, rt = /* @__PURE__ */ se({
+}, tt = { class: "d-flex align-center mb-2" }, nt = /* @__PURE__ */ se({
   __name: "VMongoAggregationBuilder",
   props: {
     initialPipeline: { default: () => [] }
@@ -1906,7 +1906,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                           class: "mx-3"
                         }, {
                           default: h(() => [...s[3] || (s[3] = [
-                            J(" Add Stage ", -1)
+                            z(" Add Stage ", -1)
                           ])]),
                           _: 1
                         }),
@@ -1921,7 +1921,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                               value: F.value
                             }, {
                               default: h(() => [
-                                J(z(F.title), 1)
+                                z(J(F.title), 1)
                               ]),
                               _: 2
                             }, 1032, ["value"])), 64))
@@ -1949,7 +1949,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                     hasErrors: $.value,
                     error: y.value
                   }, () => [
-                    $.value ? (V(), q("div", tt, [
+                    $.value ? (V(), q("div", et, [
                       (V(!0), q(W, null, re(n.value, (F) => (V(), D(I, {
                         key: F,
                         type: "error",
@@ -1957,7 +1957,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                         class: "mb-1"
                       }, {
                         default: h(() => [
-                          J(z(F), 1)
+                          z(J(F), 1)
                         ]),
                         _: 2
                       }, 1024))), 128))
@@ -1969,7 +1969,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                     }, {
                       default: h(() => [
                         s[4] || (s[4] = T("strong", null, "Error:", -1)),
-                        J(" " + z(y.value), 1)
+                        z(" " + J(y.value), 1)
                       ]),
                       _: 1
                     })) : H("", !0)
@@ -1981,7 +1981,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                     multiple: ""
                   }, {
                     default: h(() => [
-                      (V(!0), q(W, null, re(u.value, (F, U) => (V(), D(Ke, {
+                      (V(!0), q(W, null, re(u.value, (F, U) => (V(), D(Ye, {
                         key: U,
                         stage: F,
                         index: U,
@@ -1994,7 +1994,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                     ]),
                     _: 1
                   }, 8, ["modelValue"])) : (V(), q(W, { key: 1 }, [
-                    T("div", at, [
+                    T("div", tt, [
                       v(M),
                       v(m, {
                         size: "small",
@@ -2003,12 +2003,12 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                         variant: "outlined"
                       }, {
                         default: h(() => [...s[5] || (s[5] = [
-                          J(" Validate ", -1)
+                          z(" Validate ", -1)
                         ])]),
                         _: 1
                       })
                     ]),
-                    v(he, {
+                    v(me, {
                       modelValue: j.value,
                       "onUpdate:modelValue": s[2] || (s[2] = (F) => j.value = F),
                       class: ge({ "text-error": $.value }),
@@ -2025,7 +2025,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
                 md: "4"
               }, {
                 default: h(() => [
-                  v(et, {
+                  v(Qe, {
                     pipeline: u.value,
                     onExport: S
                   }, null, 8, ["pipeline"]),
@@ -2043,5 +2043,5 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
   }
 });
 export {
-  rt as VMongoAggregationBuilder
+  nt as VMongoAggregationBuilder
 };
