@@ -54,6 +54,7 @@ const highlightedCode = computed(() => {
 })
 
 // Sync prop changes to local value
+watch(() => props.modelValue, (newValue) => {
   localValue.value = newValue
 })
 
