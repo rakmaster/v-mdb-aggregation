@@ -203,8 +203,8 @@ watch(stageJson, () => {
 }
 
 .v-mab-preview-box-content {
-  padding: 0;
-  padding-top: 2em;
+  padding: .5em;
+  padding-top: 1.5em;
 }
 
 .v-mab-preview-box-content pre {
