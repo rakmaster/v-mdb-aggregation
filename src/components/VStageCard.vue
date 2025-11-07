@@ -71,11 +71,11 @@
           />
         </v-col>
         <v-col cols="12" md="4">
-          <div class="preview-box">
-            <div class="preview-box-label">
+          <div class="v-mab-preview-box">
+            <div class="v-mab-preview-box-label">
               Preview
             </div>
-            <div class="preview-box-content">
+            <div class="v-mab-preview-box-content">
               <pre>{{ JSON.stringify(stagePreview, null, 2) }}</pre>
             </div>
           </div>
@@ -186,7 +186,7 @@ watch(stageJson, () => {
 </script>
 
 <style scoped>
-.preview-box {
+.v-mab-preview-box {
   position: relative;
   width: 100%;
   background: #F7F7F7;
@@ -195,19 +195,19 @@ watch(stageJson, () => {
   overflow-x: hidden;
 }
 
-.preview-box-label {
+.v-mab-preview-box-label {
   position: absolute;
   font-size: .9em;
   color: #818181;
   padding: .5em 1em;
 }
 
-.preview-box-content {
-  padding: 1em;
+.v-mab-preview-box-content {
+  padding: 0;
   padding-top: 2em;
 }
 
-.preview-box-content pre {
+.v-mab-preview-box-content pre {
   font-size: 12px;
   line-height: 1.4;
   margin: 0;

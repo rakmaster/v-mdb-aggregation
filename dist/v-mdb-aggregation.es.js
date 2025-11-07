@@ -1,5 +1,5 @@
-import { defineComponent as se, ref as N, computed as B, watch as G, nextTick as be, createElementBlock as q, openBlock as j, createElementVNode as T, toDisplayString as D, normalizeClass as ge, resolveComponent as _, createBlock as z, withCtx as y, createVNode as v, createTextVNode as J, createCommentVNode as I, withModifiers as ce, Fragment as W, renderList as re, renderSlot as X } from "vue";
-const _e = /* @__PURE__ */ new Set([
+import { defineComponent as ie, ref as V, computed as W, watch as B, nextTick as we, onUnmounted as _e, createElementBlock as q, openBlock as j, createElementVNode as L, toDisplayString as J, normalizeClass as de, resolveComponent as k, createBlock as R, withCtx as w, createVNode as h, createTextVNode as D, createCommentVNode as I, withModifiers as ge, Fragment as G, renderList as se, renderSlot as X } from "vue";
+const Se = /* @__PURE__ */ new Set([
   "$sum",
   "$avg",
   "$min",
@@ -11,7 +11,7 @@ const _e = /* @__PURE__ */ new Set([
   "$addToSet",
   "$stdDevPop",
   "$stdDevSamp"
-]), we = /* @__PURE__ */ new Set([
+]), xe = /* @__PURE__ */ new Set([
   "$addFields",
   "$bucket",
   "$bucketAuto",
@@ -53,255 +53,255 @@ const _e = /* @__PURE__ */ new Set([
   "$unset",
   "$unwind"
 ]);
-function Se(i) {
-  const n = {
+function ke(g) {
+  const a = {
     isValid: !0,
     errors: [],
     warnings: []
   };
   let e;
   try {
-    e = JSON.parse(i);
-  } catch (g) {
-    return n.isValid = !1, n.errors.push({
+    e = JSON.parse(g);
+  } catch (p) {
+    return a.isValid = !1, a.errors.push({
       type: "json",
-      message: `Invalid JSON: ${g instanceof Error ? g.message : "Unknown parsing error"}`,
+      message: `Invalid JSON: ${p instanceof Error ? p.message : "Unknown parsing error"}`,
       position: {
-        line: Me(i, g),
-        column: Le(i, g)
+        line: Le(g, p),
+        column: Re(g, p)
       }
-    }), n;
+    }), a;
   }
-  return Array.isArray(e) ? (e.forEach((g, u) => {
-    ke(g, u, n);
-  }), n.isValid = n.errors.length === 0, Te(e, n), n) : (n.isValid = !1, n.errors.push({
+  return Array.isArray(e) ? (e.forEach((p, u) => {
+    Ae(p, u, a);
+  }), a.isValid = a.errors.length === 0, Ne(e, a), a) : (a.isValid = !1, a.errors.push({
     type: "structure",
     message: "Aggregation pipeline must be an array of stage objects"
-  }), n);
+  }), a);
 }
-function ke(i, n, e) {
-  if (typeof i != "object" || i === null || Array.isArray(i)) {
+function Ae(g, a, e) {
+  if (typeof g != "object" || g === null || Array.isArray(g)) {
     e.isValid = !1, e.errors.push({
       type: "structure",
-      message: `Stage ${n + 1} must be an object`,
-      position: { stageIndex: n }
+      message: `Stage ${a + 1} must be an object`,
+      position: { stageIndex: a }
     });
     return;
   }
-  const g = Object.keys(i);
-  g.length !== 1 && (e.isValid = !1, e.errors.push({
+  const p = Object.keys(g);
+  p.length !== 1 && (e.isValid = !1, e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1} must have exactly one key (stage name)`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1} must have exactly one key (stage name)`,
+    position: { stageIndex: a }
   }));
-  const u = g[0];
+  const u = p[0];
   if (!u || !u.startsWith("$")) {
     e.isValid = !1, e.errors.push({
       type: "stage",
-      message: `Stage ${n + 1}: Stage name "${u || "undefined"}" must start with $`,
-      position: { stageIndex: n }
+      message: `Stage ${a + 1}: Stage name "${u || "undefined"}" must start with $`,
+      position: { stageIndex: a }
     });
     return;
   }
-  we.has(u) || e.warnings.push({
+  xe.has(u) || e.warnings.push({
     type: "compatibility",
-    message: `Stage ${n + 1}: Unrecognized stage "${u}" - may not be supported in all MongoDB versions`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1}: Unrecognized stage "${u}" - may not be supported in all MongoDB versions`,
+    position: { stageIndex: a }
   });
-  const f = i[u];
-  xe(u, f, n, e);
+  const f = g[u];
+  Fe(u, f, a, e);
 }
-function xe(i, n, e, g) {
-  switch (i) {
+function Fe(g, a, e, p) {
+  switch (g) {
     case "$match":
-      Ae(n, e, g);
+      Ee(a, e, p);
       break;
     case "$group":
-      Fe(n, e, g);
+      Ce(a, e, p);
       break;
     case "$project":
     case "$addFields":
     case "$set":
-      Ee(n, e, g);
+      Oe(a, e, p);
       break;
     case "$sort":
-      Ce(n, e, g);
+      Te(a, e, p);
       break;
     case "$limit":
     case "$skip":
-      Oe(n, e, g);
+      je(a, e, p);
       break;
     case "$unwind":
-      Pe(n, e, g);
+      Pe(a, e, p);
       break;
     case "$lookup":
-      je(n, e, g);
+      Ve(a, e, p);
       break;
     // Add more stage-specific validations as needed
     default:
-      Ve(n, e, g);
+      Me(a, e, p);
   }
 }
-function Ae(i, n, e) {
-  (typeof i != "object" || i === null) && e.errors.push({
+function Ee(g, a, e) {
+  (typeof g != "object" || g === null) && e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1} ($match): Must be an object with query conditions`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1} ($match): Must be an object with query conditions`,
+    position: { stageIndex: a }
   });
 }
-function Fe(i, n, e) {
-  if (typeof i != "object" || i === null) {
+function Ce(g, a, e) {
+  if (typeof g != "object" || g === null) {
     e.errors.push({
       type: "structure",
-      message: `Stage ${n + 1} ($group): Must be an object with _id and accumulator fields`,
-      position: { stageIndex: n }
+      message: `Stage ${a + 1} ($group): Must be an object with _id and accumulator fields`,
+      position: { stageIndex: a }
     });
     return;
   }
-  i.hasOwnProperty("_id") || e.errors.push({
+  g.hasOwnProperty("_id") || e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1} ($group): Missing required _id field`,
-    position: { stageIndex: n }
-  }), Object.entries(i).forEach(([g, u]) => {
-    if (g !== "_id" && typeof u == "object" && u !== null) {
+    message: `Stage ${a + 1} ($group): Missing required _id field`,
+    position: { stageIndex: a }
+  }), Object.entries(g).forEach(([p, u]) => {
+    if (p !== "_id" && typeof u == "object" && u !== null) {
       const f = Object.keys(u);
       if (f.length > 0) {
-        const $ = f[0];
-        $ && $.startsWith("$") && !_e.has($) && e.warnings.push({
+        const x = f[0];
+        x && x.startsWith("$") && !Se.has(x) && e.warnings.push({
           type: "compatibility",
-          message: `Stage ${n + 1} ($group): Unrecognized accumulator operator "${$}"`,
-          position: { stageIndex: n }
+          message: `Stage ${a + 1} ($group): Unrecognized accumulator operator "${x}"`,
+          position: { stageIndex: a }
         });
       }
     }
   });
 }
-function Ee(i, n, e) {
-  (typeof i != "object" || i === null) && e.errors.push({
+function Oe(g, a, e) {
+  (typeof g != "object" || g === null) && e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1}: Projection stage must be an object mapping field names to expressions`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1}: Projection stage must be an object mapping field names to expressions`,
+    position: { stageIndex: a }
   });
 }
-function Ce(i, n, e) {
-  if (typeof i != "object" || i === null) {
+function Te(g, a, e) {
+  if (typeof g != "object" || g === null) {
     e.errors.push({
       type: "structure",
-      message: `Stage ${n + 1} ($sort): Must be an object mapping field names to sort directions (1 or -1)`,
-      position: { stageIndex: n }
+      message: `Stage ${a + 1} ($sort): Must be an object mapping field names to sort directions (1 or -1)`,
+      position: { stageIndex: a }
     });
     return;
   }
-  Object.entries(i).forEach(([g, u]) => {
+  Object.entries(g).forEach(([p, u]) => {
     u !== 1 && u !== -1 && e.errors.push({
       type: "structure",
-      message: `Stage ${n + 1} ($sort): Field "${g}" must have sort direction 1 (ascending) or -1 (descending), got ${u}`,
-      position: { stageIndex: n }
+      message: `Stage ${a + 1} ($sort): Field "${p}" must have sort direction 1 (ascending) or -1 (descending), got ${u}`,
+      position: { stageIndex: a }
     });
   });
 }
-function Oe(i, n, e) {
-  (typeof i != "number" || i < 0 || !Number.isInteger(i)) && e.errors.push({
+function je(g, a, e) {
+  (typeof g != "number" || g < 0 || !Number.isInteger(g)) && e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1}: Must be a non-negative integer`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1}: Must be a non-negative integer`,
+    position: { stageIndex: a }
   });
 }
-function Pe(i, n, e) {
-  typeof i == "string" ? i.startsWith("$") || e.warnings.push({
+function Pe(g, a, e) {
+  typeof g == "string" ? g.startsWith("$") || e.warnings.push({
     type: "best-practice",
-    message: `Stage ${n + 1} ($unwind): Field path should start with $`,
-    position: { stageIndex: n }
-  }) : typeof i == "object" && i !== null ? i.path || e.errors.push({
+    message: `Stage ${a + 1} ($unwind): Field path should start with $`,
+    position: { stageIndex: a }
+  }) : typeof g == "object" && g !== null ? g.path || e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1} ($unwind): Missing required "path" field`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1} ($unwind): Missing required "path" field`,
+    position: { stageIndex: a }
   }) : e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1} ($unwind): Must be a string field path or object with path property`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1} ($unwind): Must be a string field path or object with path property`,
+    position: { stageIndex: a }
   });
 }
-function je(i, n, e) {
-  if (typeof i != "object" || i === null) {
+function Ve(g, a, e) {
+  if (typeof g != "object" || g === null) {
     e.errors.push({
       type: "structure",
-      message: `Stage ${n + 1} ($lookup): Must be an object with lookup configuration`,
-      position: { stageIndex: n }
+      message: `Stage ${a + 1} ($lookup): Must be an object with lookup configuration`,
+      position: { stageIndex: a }
     });
     return;
   }
-  i.from || e.errors.push({
+  g.from || e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1} ($lookup): Missing required "from" field`,
-    position: { stageIndex: n }
-  }), i.as || e.errors.push({
+    message: `Stage ${a + 1} ($lookup): Missing required "from" field`,
+    position: { stageIndex: a }
+  }), g.as || e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1} ($lookup): Missing required "as" field`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1} ($lookup): Missing required "as" field`,
+    position: { stageIndex: a }
   });
 }
-function Ve(i, n, e) {
-  i == null && e.errors.push({
+function Me(g, a, e) {
+  g == null && e.errors.push({
     type: "structure",
-    message: `Stage ${n + 1}: Stage value cannot be null or undefined`,
-    position: { stageIndex: n }
+    message: `Stage ${a + 1}: Stage value cannot be null or undefined`,
+    position: { stageIndex: a }
   });
 }
-function Te(i, n) {
-  const e = i.findIndex((f) => "$match" in f);
-  e > 0 && n.warnings.push({
+function Ne(g, a) {
+  const e = g.findIndex((f) => "$match" in f);
+  e > 0 && a.warnings.push({
     type: "performance",
     message: "Consider moving $match stage earlier in pipeline for better performance",
     position: { stageIndex: e }
-  }), i.filter((f) => "$sort" in f).length > 1 && n.warnings.push({
+  }), g.filter((f) => "$sort" in f).length > 1 && a.warnings.push({
     type: "performance",
     message: "Multiple $sort stages detected - consider combining them",
     position: {}
-  }), i.map((f, $) => ({ stage: f, index: $ })).filter((f) => "$limit" in f.stage).forEach(({ stage: f, index: $ }) => {
+  }), g.map((f, x) => ({ stage: f, index: x })).filter((f) => "$limit" in f.stage).forEach(({ stage: f, index: x }) => {
     let s = !1;
-    for (let h = 0; h < $; h++)
-      if ("$sort" in i[h]) {
+    for (let A = 0; A < x; A++)
+      if ("$sort" in g[A]) {
         s = !0;
         break;
       }
-    s || n.warnings.push({
+    s || a.warnings.push({
       type: "best-practice",
       message: "$limit without preceding $sort may return unpredictable results",
-      position: { stageIndex: $ }
+      position: { stageIndex: x }
     });
   });
 }
-function Me(i, n) {
-  if (n instanceof SyntaxError && "message" in n) {
-    const e = n.message.match(/at position (\d+)/);
+function Le(g, a) {
+  if (a instanceof SyntaxError && "message" in a) {
+    const e = a.message.match(/at position (\d+)/);
     if (e && e[1]) {
-      const g = parseInt(e[1]);
-      return i.substring(0, g).split(`
+      const p = parseInt(e[1]);
+      return g.substring(0, p).split(`
 `).length;
     }
   }
 }
-function Le(i, n) {
-  if (n instanceof SyntaxError && "message" in n) {
-    const e = n.message.match(/at position (\d+)/);
+function Re(g, a) {
+  if (a instanceof SyntaxError && "message" in a) {
+    const e = a.message.match(/at position (\d+)/);
     if (e && e[1]) {
-      const g = parseInt(e[1]), u = i.substring(0, g).split(`
+      const p = parseInt(e[1]), u = g.substring(0, p).split(`
 `), f = u[u.length - 1];
       return f ? f.length : void 0;
     }
   }
 }
-var fe = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function Ne(i) {
-  return i && i.__esModule && Object.prototype.hasOwnProperty.call(i, "default") ? i.default : i;
+var ve = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
+function De(g) {
+  return g && g.__esModule && Object.prototype.hasOwnProperty.call(g, "default") ? g.default : g;
 }
-var pe = { exports: {} }, ve;
-function De() {
-  return ve || (ve = 1, (function(i) {
-    var n = typeof window < "u" ? window : typeof WorkerGlobalScope < "u" && self instanceof WorkerGlobalScope ? self : {};
-    var e = (function(g) {
-      var u = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i, f = 0, $ = {}, s = {
+var pe = { exports: {} }, me;
+function Je() {
+  return me || (me = 1, (function(g) {
+    var a = typeof window < "u" ? window : typeof WorkerGlobalScope < "u" && self instanceof WorkerGlobalScope ? self : {};
+    var e = (function(p) {
+      var u = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i, f = 0, x = {}, s = {
         /**
          * By default, Prism will attempt to highlight all code elements (by calling {@link Prism.highlightAll}) on the
          * current page after the page finished loading. This might be a problem if e.g. you wanted to asynchronously load
@@ -323,7 +323,7 @@ function De() {
          * @memberof Prism
          * @public
          */
-        manual: g.Prism && g.Prism.manual,
+        manual: p.Prism && p.Prism.manual,
         /**
          * By default, if Prism is in a web worker, it assumes that it is in a worker it created itself, so it uses
          * `addEventListener` to communicate with its parent instance. However, if you're using Prism manually in your
@@ -345,7 +345,7 @@ function De() {
          * @memberof Prism
          * @public
          */
-        disableWorkerMessageHandler: g.Prism && g.Prism.disableWorkerMessageHandler,
+        disableWorkerMessageHandler: p.Prism && p.Prism.disableWorkerMessageHandler,
         /**
          * A namespace for utility methods.
          *
@@ -356,8 +356,8 @@ function De() {
          * @memberof Prism
          */
         util: {
-          encode: function a(t) {
-            return t instanceof h ? new h(t.type, a(t.content), t.alias) : Array.isArray(t) ? t.map(a) : t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\u00a0/g, " ");
+          encode: function n(t) {
+            return t instanceof A ? new A(t.type, n(t.content), t.alias) : Array.isArray(t) ? t.map(n) : t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\u00a0/g, " ");
           },
           /**
            * Returns the name of the type of the given value.
@@ -375,8 +375,8 @@ function De() {
            * type(String)    === 'Function'
            * type(/abc+/)    === 'RegExp'
            */
-          type: function(a) {
-            return Object.prototype.toString.call(a).slice(8, -1);
+          type: function(n) {
+            return Object.prototype.toString.call(n).slice(8, -1);
           },
           /**
            * Returns a unique number for the given object. Later calls will still return the same number.
@@ -384,8 +384,8 @@ function De() {
            * @param {Object} obj
            * @returns {number}
            */
-          objId: function(a) {
-            return a.__id || Object.defineProperty(a, "__id", { value: ++f }), a.__id;
+          objId: function(n) {
+            return n.__id || Object.defineProperty(n, "__id", { value: ++f }), n.__id;
           },
           /**
            * Creates a deep clone of the given object.
@@ -397,26 +397,26 @@ function De() {
            * @returns {T}
            * @template T
            */
-          clone: function a(t, o) {
-            o = o || {};
-            var c, p;
+          clone: function n(t, i) {
+            i = i || {};
+            var c, o;
             switch (s.util.type(t)) {
               case "Object":
-                if (p = s.util.objId(t), o[p])
-                  return o[p];
+                if (o = s.util.objId(t), i[o])
+                  return i[o];
                 c = /** @type {Record<string, any>} */
-                {}, o[p] = c;
+                {}, i[o] = c;
                 for (var d in t)
-                  t.hasOwnProperty(d) && (c[d] = a(t[d], o));
+                  t.hasOwnProperty(d) && (c[d] = n(t[d], i));
                 return (
                   /** @type {any} */
                   c
                 );
               case "Array":
-                return p = s.util.objId(t), o[p] ? o[p] : (c = [], o[p] = c, /** @type {Array} */
+                return o = s.util.objId(t), i[o] ? i[o] : (c = [], i[o] = c, /** @type {Array} */
                 /** @type {any} */
                 t.forEach(function(l, r) {
-                  c[r] = a(l, o);
+                  c[r] = n(l, i);
                 }), /** @type {any} */
                 c);
               default:
@@ -431,12 +431,12 @@ function De() {
            * @param {Element} element
            * @returns {string}
            */
-          getLanguage: function(a) {
-            for (; a; ) {
-              var t = u.exec(a.className);
+          getLanguage: function(n) {
+            for (; n; ) {
+              var t = u.exec(n.className);
               if (t)
                 return t[1].toLowerCase();
-              a = a.parentElement;
+              n = n.parentElement;
             }
             return "none";
           },
@@ -447,8 +447,8 @@ function De() {
            * @param {string} language
            * @returns {void}
            */
-          setLanguage: function(a, t) {
-            a.className = a.className.replace(RegExp(u, "gi"), ""), a.classList.add("language-" + t);
+          setLanguage: function(n, t) {
+            n.className = n.className.replace(RegExp(u, "gi"), ""), n.classList.add("language-" + t);
           },
           /**
            * Returns the script element that is currently executing.
@@ -468,12 +468,12 @@ function De() {
             try {
               throw new Error();
             } catch (c) {
-              var a = (/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(c.stack) || [])[1];
-              if (a) {
+              var n = (/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(c.stack) || [])[1];
+              if (n) {
                 var t = document.getElementsByTagName("script");
-                for (var o in t)
-                  if (t[o].src == a)
-                    return t[o];
+                for (var i in t)
+                  if (t[i].src == n)
+                    return t[i];
               }
               return null;
             }
@@ -497,16 +497,16 @@ function De() {
            * @param {boolean} [defaultActivation=false]
            * @returns {boolean}
            */
-          isActive: function(a, t, o) {
-            for (var c = "no-" + t; a; ) {
-              var p = a.classList;
-              if (p.contains(t))
+          isActive: function(n, t, i) {
+            for (var c = "no-" + t; n; ) {
+              var o = n.classList;
+              if (o.contains(t))
                 return !0;
-              if (p.contains(c))
+              if (o.contains(c))
                 return !1;
-              a = a.parentElement;
+              n = n.parentElement;
             }
-            return !!o;
+            return !!i;
           }
         },
         /**
@@ -520,10 +520,10 @@ function De() {
           /**
            * The grammar for plain, unformatted text.
            */
-          plain: $,
-          plaintext: $,
-          text: $,
-          txt: $,
+          plain: x,
+          plaintext: x,
+          text: x,
+          txt: x,
           /**
            * Creates a deep copy of the language with the given id and appends the given tokens.
            *
@@ -552,11 +552,11 @@ function De() {
            *     'color': /\b(?:red|green|blue)\b/
            * });
            */
-          extend: function(a, t) {
-            var o = s.util.clone(s.languages[a]);
+          extend: function(n, t) {
+            var i = s.util.clone(s.languages[n]);
             for (var c in t)
-              o[c] = t[c];
-            return o;
+              i[c] = t[c];
+            return i;
           },
           /**
            * Inserts tokens _before_ another token in a language definition or any other grammar.
@@ -633,31 +633,31 @@ function De() {
            * @returns {Grammar} The new grammar object.
            * @public
            */
-          insertBefore: function(a, t, o, c) {
+          insertBefore: function(n, t, i, c) {
             c = c || /** @type {any} */
             s.languages;
-            var p = c[a], d = {};
-            for (var l in p)
-              if (p.hasOwnProperty(l)) {
+            var o = c[n], d = {};
+            for (var l in o)
+              if (o.hasOwnProperty(l)) {
                 if (l == t)
-                  for (var r in o)
-                    o.hasOwnProperty(r) && (d[r] = o[r]);
-                o.hasOwnProperty(l) || (d[l] = p[l]);
+                  for (var r in i)
+                    i.hasOwnProperty(r) && (d[r] = i[r]);
+                i.hasOwnProperty(l) || (d[l] = o[l]);
               }
-            var m = c[a];
-            return c[a] = d, s.languages.DFS(s.languages, function(w, M) {
-              M === m && w != a && (this[w] = d);
+            var b = c[n];
+            return c[n] = d, s.languages.DFS(s.languages, function(E, M) {
+              M === b && E != n && (this[E] = d);
             }), d;
           },
           // Traverse a language definition with Depth First Search
-          DFS: function a(t, o, c, p) {
-            p = p || {};
+          DFS: function n(t, i, c, o) {
+            o = o || {};
             var d = s.util.objId;
             for (var l in t)
               if (t.hasOwnProperty(l)) {
-                o.call(t, l, t[l], c || l);
-                var r = t[l], m = s.util.type(r);
-                m === "Object" && !p[d(r)] ? (p[d(r)] = !0, a(r, o, null, p)) : m === "Array" && !p[d(r)] && (p[d(r)] = !0, a(r, o, l, p));
+                i.call(t, l, t[l], c || l);
+                var r = t[l], b = s.util.type(r);
+                b === "Object" && !o[d(r)] ? (o[d(r)] = !0, n(r, i, null, o)) : b === "Array" && !o[d(r)] && (o[d(r)] = !0, n(r, i, l, o));
               }
           }
         },
@@ -674,8 +674,8 @@ function De() {
          * @memberof Prism
          * @public
          */
-        highlightAll: function(a, t) {
-          s.highlightAllUnder(document, a, t);
+        highlightAll: function(n, t) {
+          s.highlightAllUnder(document, n, t);
         },
         /**
          * Fetches all the descendants of `container` that have a `.language-xxxx` class and then calls
@@ -692,14 +692,14 @@ function De() {
          * @memberof Prism
          * @public
          */
-        highlightAllUnder: function(a, t, o) {
+        highlightAllUnder: function(n, t, i) {
           var c = {
-            callback: o,
-            container: a,
+            callback: i,
+            container: n,
             selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
           };
           s.hooks.run("before-highlightall", c), c.elements = Array.prototype.slice.apply(c.container.querySelectorAll(c.selector)), s.hooks.run("before-all-elements-highlight", c);
-          for (var p = 0, d; d = c.elements[p++]; )
+          for (var o = 0, d; d = c.elements[o++]; )
             s.highlightElement(d, t === !0, c.callback);
         },
         /**
@@ -730,39 +730,39 @@ function De() {
          * @memberof Prism
          * @public
          */
-        highlightElement: function(a, t, o) {
-          var c = s.util.getLanguage(a), p = s.languages[c];
-          s.util.setLanguage(a, c);
-          var d = a.parentElement;
+        highlightElement: function(n, t, i) {
+          var c = s.util.getLanguage(n), o = s.languages[c];
+          s.util.setLanguage(n, c);
+          var d = n.parentElement;
           d && d.nodeName.toLowerCase() === "pre" && s.util.setLanguage(d, c);
-          var l = a.textContent, r = {
-            element: a,
+          var l = n.textContent, r = {
+            element: n,
             language: c,
-            grammar: p,
+            grammar: o,
             code: l
           };
-          function m(M) {
-            r.highlightedCode = M, s.hooks.run("before-insert", r), r.element.innerHTML = r.highlightedCode, s.hooks.run("after-highlight", r), s.hooks.run("complete", r), o && o.call(r.element);
+          function b(M) {
+            r.highlightedCode = M, s.hooks.run("before-insert", r), r.element.innerHTML = r.highlightedCode, s.hooks.run("after-highlight", r), s.hooks.run("complete", r), i && i.call(r.element);
           }
           if (s.hooks.run("before-sanity-check", r), d = r.element.parentElement, d && d.nodeName.toLowerCase() === "pre" && !d.hasAttribute("tabindex") && d.setAttribute("tabindex", "0"), !r.code) {
-            s.hooks.run("complete", r), o && o.call(r.element);
+            s.hooks.run("complete", r), i && i.call(r.element);
             return;
           }
           if (s.hooks.run("before-highlight", r), !r.grammar) {
-            m(s.util.encode(r.code));
+            b(s.util.encode(r.code));
             return;
           }
-          if (t && g.Worker) {
-            var w = new Worker(s.filename);
-            w.onmessage = function(M) {
-              m(M.data);
-            }, w.postMessage(JSON.stringify({
+          if (t && p.Worker) {
+            var E = new Worker(s.filename);
+            E.onmessage = function(M) {
+              b(M.data);
+            }, E.postMessage(JSON.stringify({
               language: r.language,
               code: r.code,
               immediateClose: !0
             }));
           } else
-            m(s.highlight(r.code, r.grammar, r.language));
+            b(s.highlight(r.code, r.grammar, r.language));
         },
         /**
          * Low-level function, only use if you know what you’re doing. It accepts a string of text as input
@@ -784,15 +784,15 @@ function De() {
          * @example
          * Prism.highlight('var foo = true;', Prism.languages.javascript, 'javascript');
          */
-        highlight: function(a, t, o) {
+        highlight: function(n, t, i) {
           var c = {
-            code: a,
+            code: n,
             grammar: t,
-            language: o
+            language: i
           };
           if (s.hooks.run("before-tokenize", c), !c.grammar)
             throw new Error('The language "' + c.language + '" has no grammar.');
-          return c.tokens = s.tokenize(c.code, c.grammar), s.hooks.run("after-tokenize", c), h.stringify(s.util.encode(c.tokens), c.language);
+          return c.tokens = s.tokenize(c.code, c.grammar), s.hooks.run("after-tokenize", c), A.stringify(s.util.encode(c.tokens), c.language);
         },
         /**
          * This is the heart of Prism, and the most low-level function you can use. It accepts a string of text as input
@@ -818,15 +818,15 @@ function De() {
          *     }
          * });
          */
-        tokenize: function(a, t) {
-          var o = t.rest;
-          if (o) {
-            for (var c in o)
-              t[c] = o[c];
+        tokenize: function(n, t) {
+          var i = t.rest;
+          if (i) {
+            for (var c in i)
+              t[c] = i[c];
             delete t.rest;
           }
-          var p = new O();
-          return E(p, p.head, a), V(a, p, t, p.head, 0), C(p);
+          var o = new m();
+          return _(o, o.head, n), P(n, o, t, o.head, 0), S(o);
         },
         /**
          * @namespace
@@ -847,9 +847,9 @@ function De() {
            * @param {HookCallback} callback The callback function which is given environment variables.
            * @public
            */
-          add: function(a, t) {
-            var o = s.hooks.all;
-            o[a] = o[a] || [], o[a].push(t);
+          add: function(n, t) {
+            var i = s.hooks.all;
+            i[n] = i[n] || [], i[n].push(t);
           },
           /**
            * Runs a hook invoking all registered callbacks with the given environment variables.
@@ -860,135 +860,135 @@ function De() {
            * @param {Object<string, any>} env The environment variables of the hook passed to all callbacks registered.
            * @public
            */
-          run: function(a, t) {
-            var o = s.hooks.all[a];
-            if (!(!o || !o.length))
-              for (var c = 0, p; p = o[c++]; )
-                p(t);
+          run: function(n, t) {
+            var i = s.hooks.all[n];
+            if (!(!i || !i.length))
+              for (var c = 0, o; o = i[c++]; )
+                o(t);
           }
         },
-        Token: h
+        Token: A
       };
-      g.Prism = s;
-      function h(a, t, o, c) {
-        this.type = a, this.content = t, this.alias = o, this.length = (c || "").length | 0;
+      p.Prism = s;
+      function A(n, t, i, c) {
+        this.type = n, this.content = t, this.alias = i, this.length = (c || "").length | 0;
       }
-      h.stringify = function a(t, o) {
+      A.stringify = function n(t, i) {
         if (typeof t == "string")
           return t;
         if (Array.isArray(t)) {
           var c = "";
-          return t.forEach(function(m) {
-            c += a(m, o);
+          return t.forEach(function(b) {
+            c += n(b, i);
           }), c;
         }
-        var p = {
+        var o = {
           type: t.type,
-          content: a(t.content, o),
+          content: n(t.content, i),
           tag: "span",
           classes: ["token", t.type],
           attributes: {},
-          language: o
+          language: i
         }, d = t.alias;
-        d && (Array.isArray(d) ? Array.prototype.push.apply(p.classes, d) : p.classes.push(d)), s.hooks.run("wrap", p);
+        d && (Array.isArray(d) ? Array.prototype.push.apply(o.classes, d) : o.classes.push(d)), s.hooks.run("wrap", o);
         var l = "";
-        for (var r in p.attributes)
-          l += " " + r + '="' + (p.attributes[r] || "").replace(/"/g, "&quot;") + '"';
-        return "<" + p.tag + ' class="' + p.classes.join(" ") + '"' + l + ">" + p.content + "</" + p.tag + ">";
+        for (var r in o.attributes)
+          l += " " + r + '="' + (o.attributes[r] || "").replace(/"/g, "&quot;") + '"';
+        return "<" + o.tag + ' class="' + o.classes.join(" ") + '"' + l + ">" + o.content + "</" + o.tag + ">";
       };
-      function S(a, t, o, c) {
-        a.lastIndex = t;
-        var p = a.exec(o);
-        if (p && c && p[1]) {
-          var d = p[1].length;
-          p.index += d, p[0] = p[0].slice(d);
+      function O(n, t, i, c) {
+        n.lastIndex = t;
+        var o = n.exec(i);
+        if (o && c && o[1]) {
+          var d = o[1].length;
+          o.index += d, o[0] = o[0].slice(d);
         }
-        return p;
+        return o;
       }
-      function V(a, t, o, c, p, d) {
-        for (var l in o)
-          if (!(!o.hasOwnProperty(l) || !o[l])) {
-            var r = o[l];
+      function P(n, t, i, c, o, d) {
+        for (var l in i)
+          if (!(!i.hasOwnProperty(l) || !i[l])) {
+            var r = i[l];
             r = Array.isArray(r) ? r : [r];
-            for (var m = 0; m < r.length; ++m) {
-              if (d && d.cause == l + "," + m)
+            for (var b = 0; b < r.length; ++b) {
+              if (d && d.cause == l + "," + b)
                 return;
-              var w = r[m], M = w.inside, Y = !!w.lookbehind, H = !!w.greedy, ie = w.alias;
-              if (H && !w.pattern.global) {
-                var K = w.pattern.toString().match(/[imsuy]*$/)[0];
-                w.pattern = RegExp(w.pattern.source, K + "g");
+              var E = r[b], M = E.inside, Y = !!E.lookbehind, Z = !!E.greedy, oe = E.alias;
+              if (Z && !E.pattern.global) {
+                var Q = E.pattern.toString().match(/[imsuy]*$/)[0];
+                E.pattern = RegExp(E.pattern.source, Q + "g");
               }
-              for (var Q = w.pattern || w, P = c.next, F = p; P !== t.tail && !(d && F >= d.reach); F += P.value.length, P = P.next) {
-                var U = P.value;
-                if (t.length > a.length)
+              for (var ee = E.pattern || E, T = c.next, C = o; T !== t.tail && !(d && C >= d.reach); C += T.value.length, T = T.next) {
+                var z = T.value;
+                if (t.length > n.length)
                   return;
-                if (!(U instanceof h)) {
-                  var ee = 1, L;
-                  if (H) {
-                    if (L = S(Q, F, a, Y), !L || L.index >= a.length)
+                if (!(z instanceof A)) {
+                  var te = 1, N;
+                  if (Z) {
+                    if (N = O(ee, C, n, Y), !N || N.index >= n.length)
                       break;
-                    var te = L.index, ye = L.index + L[0].length, R = F;
-                    for (R += P.value.length; te >= R; )
-                      P = P.next, R += P.value.length;
-                    if (R -= P.value.length, F = R, P.value instanceof h)
+                    var ne = N.index, be = N.index + N[0].length, U = C;
+                    for (U += T.value.length; ne >= U; )
+                      T = T.next, U += T.value.length;
+                    if (U -= T.value.length, C = U, T.value instanceof A)
                       continue;
-                    for (var Z = P; Z !== t.tail && (R < ye || typeof Z.value == "string"); Z = Z.next)
-                      ee++, R += Z.value.length;
-                    ee--, U = a.slice(F, R), L.index -= F;
-                  } else if (L = S(Q, 0, U, Y), !L)
+                    for (var K = T; K !== t.tail && (U < be || typeof K.value == "string"); K = K.next)
+                      te++, U += K.value.length;
+                    te--, z = n.slice(C, U), N.index -= C;
+                  } else if (N = O(ee, 0, z, Y), !N)
                     continue;
-                  var te = L.index, ae = L[0], oe = U.slice(0, te), de = U.slice(te + ae.length), le = F + U.length;
-                  d && le > d.reach && (d.reach = le);
-                  var ne = P.prev;
-                  oe && (ne = E(t, ne, oe), F += oe.length), k(t, ne, ee);
-                  var $e = new h(l, M ? s.tokenize(ae, M) : ae, ie, ae);
-                  if (P = E(t, ne, $e), de && E(t, P, de), ee > 1) {
-                    var ue = {
-                      cause: l + "," + m,
-                      reach: le
+                  var ne = N.index, ae = N[0], le = z.slice(0, ne), fe = z.slice(ne + ae.length), ue = C + z.length;
+                  d && ue > d.reach && (d.reach = ue);
+                  var re = T.prev;
+                  le && (re = _(t, re, le), C += le.length), v(t, re, te);
+                  var $e = new A(l, M ? s.tokenize(ae, M) : ae, oe, ae);
+                  if (T = _(t, re, $e), fe && _(t, T, fe), te > 1) {
+                    var ce = {
+                      cause: l + "," + b,
+                      reach: ue
                     };
-                    V(a, t, o, P.prev, F, ue), d && ue.reach > d.reach && (d.reach = ue.reach);
+                    P(n, t, i, T.prev, C, ce), d && ce.reach > d.reach && (d.reach = ce.reach);
                   }
                 }
               }
             }
           }
       }
-      function O() {
-        var a = { value: null, prev: null, next: null }, t = { value: null, prev: a, next: null };
-        a.next = t, this.head = a, this.tail = t, this.length = 0;
+      function m() {
+        var n = { value: null, prev: null, next: null }, t = { value: null, prev: n, next: null };
+        n.next = t, this.head = n, this.tail = t, this.length = 0;
       }
-      function E(a, t, o) {
-        var c = t.next, p = { value: o, prev: t, next: c };
-        return t.next = p, c.prev = p, a.length++, p;
+      function _(n, t, i) {
+        var c = t.next, o = { value: i, prev: t, next: c };
+        return t.next = o, c.prev = o, n.length++, o;
       }
-      function k(a, t, o) {
-        for (var c = t.next, p = 0; p < o && c !== a.tail; p++)
+      function v(n, t, i) {
+        for (var c = t.next, o = 0; o < i && c !== n.tail; o++)
           c = c.next;
-        t.next = c, c.prev = t, a.length -= p;
+        t.next = c, c.prev = t, n.length -= o;
       }
-      function C(a) {
-        for (var t = [], o = a.head.next; o !== a.tail; )
-          t.push(o.value), o = o.next;
+      function S(n) {
+        for (var t = [], i = n.head.next; i !== n.tail; )
+          t.push(i.value), i = i.next;
         return t;
       }
-      if (!g.document)
-        return g.addEventListener && (s.disableWorkerMessageHandler || g.addEventListener("message", function(a) {
-          var t = JSON.parse(a.data), o = t.language, c = t.code, p = t.immediateClose;
-          g.postMessage(s.highlight(c, s.languages[o], o)), p && g.close();
+      if (!p.document)
+        return p.addEventListener && (s.disableWorkerMessageHandler || p.addEventListener("message", function(n) {
+          var t = JSON.parse(n.data), i = t.language, c = t.code, o = t.immediateClose;
+          p.postMessage(s.highlight(c, s.languages[i], i)), o && p.close();
         }, !1)), s;
-      var A = s.util.currentScript();
-      A && (s.filename = A.src, A.hasAttribute("data-manual") && (s.manual = !0));
-      function b() {
+      var $ = s.util.currentScript();
+      $ && (s.filename = $.src, $.hasAttribute("data-manual") && (s.manual = !0));
+      function y() {
         s.manual || s.highlightAll();
       }
       if (!s.manual) {
-        var x = document.readyState;
-        x === "loading" || x === "interactive" && A && A.defer ? document.addEventListener("DOMContentLoaded", b) : window.requestAnimationFrame ? window.requestAnimationFrame(b) : window.setTimeout(b, 16);
+        var F = document.readyState;
+        F === "loading" || F === "interactive" && $ && $.defer ? document.addEventListener("DOMContentLoaded", y) : window.requestAnimationFrame ? window.requestAnimationFrame(y) : window.setTimeout(y, 16);
       }
       return s;
-    })(n);
-    i.exports && (i.exports = e), typeof fe < "u" && (fe.Prism = e), e.languages.markup = {
+    })(a);
+    g.exports && (g.exports = e), typeof ve < "u" && (ve.Prism = e), e.languages.markup = {
       comment: {
         pattern: /<!--(?:(?!<!--)[\s\S])*?-->/,
         greedy: !0
@@ -1065,8 +1065,8 @@ function De() {
         },
         /&#x?[\da-f]{1,8};/i
       ]
-    }, e.languages.markup.tag.inside["attr-value"].inside.entity = e.languages.markup.entity, e.languages.markup.doctype.inside["internal-subset"].inside = e.languages.markup, e.hooks.add("wrap", function(g) {
-      g.type === "entity" && (g.attributes.title = g.content.replace(/&amp;/, "&"));
+    }, e.languages.markup.tag.inside["attr-value"].inside.entity = e.languages.markup.entity, e.languages.markup.doctype.inside["internal-subset"].inside = e.languages.markup, e.hooks.add("wrap", function(p) {
+      p.type === "entity" && (p.attributes.title = p.content.replace(/&amp;/, "&"));
     }), Object.defineProperty(e.languages.markup.tag, "addInlined", {
       /**
        * Adds an inlined language to markup.
@@ -1080,31 +1080,31 @@ function De() {
        * addInlined('style', 'css');
        */
       value: function(u, f) {
-        var $ = {};
-        $["language-" + f] = {
+        var x = {};
+        x["language-" + f] = {
           pattern: /(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,
           lookbehind: !0,
           inside: e.languages[f]
-        }, $.cdata = /^<!\[CDATA\[|\]\]>$/i;
+        }, x.cdata = /^<!\[CDATA\[|\]\]>$/i;
         var s = {
           "included-cdata": {
             pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
-            inside: $
+            inside: x
           }
         };
         s["language-" + f] = {
           pattern: /[\s\S]+/,
           inside: e.languages[f]
         };
-        var h = {};
-        h[u] = {
+        var A = {};
+        A[u] = {
           pattern: RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g, function() {
             return u;
           }), "i"),
           lookbehind: !0,
           greedy: !0,
           inside: s
-        }, e.languages.insertBefore("markup", "cdata", h);
+        }, e.languages.insertBefore("markup", "cdata", A);
       }
     }), Object.defineProperty(e.languages.markup.tag, "addAttribute", {
       /**
@@ -1118,10 +1118,10 @@ function De() {
        * @example
        * addAttribute('style', 'css');
        */
-      value: function(g, u) {
+      value: function(p, u) {
         e.languages.markup.tag.inside["special-attr"].push({
           pattern: RegExp(
-            /(^|["'\s])/.source + "(?:" + g + ")" + /\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,
+            /(^|["'\s])/.source + "(?:" + p + ")" + /\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,
             "i"
           ),
           lookbehind: !0,
@@ -1148,9 +1148,9 @@ function De() {
           }
         });
       }
-    }), e.languages.html = e.languages.markup, e.languages.mathml = e.languages.markup, e.languages.svg = e.languages.markup, e.languages.xml = e.languages.extend("markup", {}), e.languages.ssml = e.languages.xml, e.languages.atom = e.languages.xml, e.languages.rss = e.languages.xml, (function(g) {
+    }), e.languages.html = e.languages.markup, e.languages.mathml = e.languages.markup, e.languages.svg = e.languages.markup, e.languages.xml = e.languages.extend("markup", {}), e.languages.ssml = e.languages.xml, e.languages.atom = e.languages.xml, e.languages.rss = e.languages.xml, (function(p) {
       var u = /(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;
-      g.languages.css = {
+      p.languages.css = {
         comment: /\/\*[\s\S]*?\*\//,
         atrule: {
           pattern: RegExp("@[\\w-](?:" + /[^;{\s"']|\s+(?!\s)/.source + "|" + u.source + ")*?" + /(?:;|(?=\s*\{))/.source),
@@ -1199,8 +1199,8 @@ function De() {
           lookbehind: !0
         },
         punctuation: /[(){};:,]/
-      }, g.languages.css.atrule.inside.rest = g.languages.css;
-      var f = g.languages.markup;
+      }, p.languages.css.atrule.inside.rest = p.languages.css;
+      var f = p.languages.markup;
       f && (f.tag.addInlined("style", "css"), f.tag.addAttribute("style", "css"));
     })(e), e.languages.clike = {
       comment: [
@@ -1366,9 +1366,9 @@ function De() {
       if (typeof e > "u" || typeof document > "u")
         return;
       Element.prototype.matches || (Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector);
-      var g = "Loading…", u = function(A, b) {
-        return "✖ Error " + A + " while fetching file: " + b;
-      }, f = "✖ Error: File does not exist or is empty", $ = {
+      var p = "Loading…", u = function($, y) {
+        return "✖ Error " + $ + " while fetching file: " + y;
+      }, f = "✖ Error: File does not exist or is empty", x = {
         js: "javascript",
         py: "python",
         rb: "ruby",
@@ -1378,52 +1378,52 @@ function De() {
         bat: "batch",
         h: "c",
         tex: "latex"
-      }, s = "data-src-status", h = "loading", S = "loaded", V = "failed", O = "pre[data-src]:not([" + s + '="' + S + '"]):not([' + s + '="' + h + '"])';
-      function E(A, b, x) {
-        var a = new XMLHttpRequest();
-        a.open("GET", A, !0), a.onreadystatechange = function() {
-          a.readyState == 4 && (a.status < 400 && a.responseText ? b(a.responseText) : a.status >= 400 ? x(u(a.status, a.statusText)) : x(f));
-        }, a.send(null);
+      }, s = "data-src-status", A = "loading", O = "loaded", P = "failed", m = "pre[data-src]:not([" + s + '="' + O + '"]):not([' + s + '="' + A + '"])';
+      function _($, y, F) {
+        var n = new XMLHttpRequest();
+        n.open("GET", $, !0), n.onreadystatechange = function() {
+          n.readyState == 4 && (n.status < 400 && n.responseText ? y(n.responseText) : n.status >= 400 ? F(u(n.status, n.statusText)) : F(f));
+        }, n.send(null);
       }
-      function k(A) {
-        var b = /^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(A || "");
-        if (b) {
-          var x = Number(b[1]), a = b[2], t = b[3];
-          return a ? t ? [x, Number(t)] : [x, void 0] : [x, x];
+      function v($) {
+        var y = /^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec($ || "");
+        if (y) {
+          var F = Number(y[1]), n = y[2], t = y[3];
+          return n ? t ? [F, Number(t)] : [F, void 0] : [F, F];
         }
       }
-      e.hooks.add("before-highlightall", function(A) {
-        A.selector += ", " + O;
-      }), e.hooks.add("before-sanity-check", function(A) {
-        var b = (
+      e.hooks.add("before-highlightall", function($) {
+        $.selector += ", " + m;
+      }), e.hooks.add("before-sanity-check", function($) {
+        var y = (
           /** @type {HTMLPreElement} */
-          A.element
+          $.element
         );
-        if (b.matches(O)) {
-          A.code = "", b.setAttribute(s, h);
-          var x = b.appendChild(document.createElement("CODE"));
-          x.textContent = g;
-          var a = b.getAttribute("data-src"), t = A.language;
+        if (y.matches(m)) {
+          $.code = "", y.setAttribute(s, A);
+          var F = y.appendChild(document.createElement("CODE"));
+          F.textContent = p;
+          var n = y.getAttribute("data-src"), t = $.language;
           if (t === "none") {
-            var o = (/\.(\w+)$/.exec(a) || [, "none"])[1];
-            t = $[o] || o;
+            var i = (/\.(\w+)$/.exec(n) || [, "none"])[1];
+            t = x[i] || i;
           }
-          e.util.setLanguage(x, t), e.util.setLanguage(b, t);
+          e.util.setLanguage(F, t), e.util.setLanguage(y, t);
           var c = e.plugins.autoloader;
-          c && c.loadLanguages(t), E(
-            a,
-            function(p) {
-              b.setAttribute(s, S);
-              var d = k(b.getAttribute("data-range"));
+          c && c.loadLanguages(t), _(
+            n,
+            function(o) {
+              y.setAttribute(s, O);
+              var d = v(y.getAttribute("data-range"));
               if (d) {
-                var l = p.split(/\r\n?|\n/g), r = d[0], m = d[1] == null ? l.length : d[1];
-                r < 0 && (r += l.length), r = Math.max(0, Math.min(r - 1, l.length)), m < 0 && (m += l.length), m = Math.max(0, Math.min(m, l.length)), p = l.slice(r, m).join(`
-`), b.hasAttribute("data-start") || b.setAttribute("data-start", String(r + 1));
+                var l = o.split(/\r\n?|\n/g), r = d[0], b = d[1] == null ? l.length : d[1];
+                r < 0 && (r += l.length), r = Math.max(0, Math.min(r - 1, l.length)), b < 0 && (b += l.length), b = Math.max(0, Math.min(b, l.length)), o = l.slice(r, b).join(`
+`), y.hasAttribute("data-start") || y.setAttribute("data-start", String(r + 1));
               }
-              x.textContent = p, e.highlightElement(x);
+              F.textContent = o, e.highlightElement(F);
             },
-            function(p) {
-              b.setAttribute(s, V), x.textContent = p;
+            function(o) {
+              y.setAttribute(s, P), F.textContent = o;
             }
           );
         }
@@ -1435,20 +1435,20 @@ function De() {
          *
          * @param {ParentNode} [container=document]
          */
-        highlight: function(b) {
-          for (var x = (b || document).querySelectorAll(O), a = 0, t; t = x[a++]; )
+        highlight: function(y) {
+          for (var F = (y || document).querySelectorAll(m), n = 0, t; t = F[n++]; )
             e.highlightElement(t);
         }
       };
-      var C = !1;
+      var S = !1;
       e.fileHighlight = function() {
-        C || (console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."), C = !0), e.plugins.fileHighlight.highlight.apply(this, arguments);
+        S || (console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."), S = !0), e.plugins.fileHighlight.highlight.apply(this, arguments);
       };
     })();
   })(pe)), pe.exports;
 }
-var ze = De();
-const Je = /* @__PURE__ */ Ne(ze);
+var ze = Je();
+const H = /* @__PURE__ */ De(ze);
 Prism.languages.json = {
   property: {
     pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?=\s*:)/,
@@ -1474,7 +1474,7 @@ Prism.languages.json = {
   }
 };
 Prism.languages.webmanifest = Prism.languages.json;
-const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-highlighted-code" }, qe = { class: "language-json" }, Be = ["textContent"], me = /* @__PURE__ */ se({
+const Ue = { class: "v-mab-syntax-highlighted-textarea" }, qe = ["textContent"], he = /* @__PURE__ */ ie({
   __name: "JsonTextarea",
   props: {
     modelValue: {},
@@ -1485,46 +1485,99 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
     textareaClass: { default: "" }
   },
   emits: ["update:modelValue"],
-  setup(i, { emit: n }) {
-    const e = i, g = n, u = N(e.modelValue), f = B(() => {
+  setup(g, { emit: a }) {
+    const e = g, p = a, u = V(e.modelValue), f = V();
+    W(() => {
       try {
-        const h = JSON.parse(u.value || "{}");
-        return JSON.stringify(h, null, 2);
+        const m = JSON.parse(u.value || "{}");
+        return JSON.stringify(m, null, 2);
       } catch {
         return u.value || "";
       }
+    }), B(() => e.modelValue, (m) => {
+      u.value = m;
+    }), B(u, (m) => {
+      p("update:modelValue", m);
     });
-    G(() => e.modelValue, (h) => {
-      u.value = h;
-    }), G(u, (h) => {
-      g("update:modelValue", h);
-    });
-    const $ = (h) => {
-      const S = h.target, V = S.parentElement?.querySelector(".v-syntax-highlighted-code");
-      V && (V.scrollTop = S.scrollTop, V.scrollLeft = S.scrollLeft);
-    }, s = (h) => {
-      const S = h.target;
-      u.value = S.textContent || "";
+    const x = (m) => {
+      const v = m.target.textContent || "";
+      u.value = v, clearTimeout(f.value), f.value = setTimeout(() => {
+        O();
+      }, 100);
+    }, s = (m) => {
+      if (m.key === "Tab") {
+        m.preventDefault();
+        const _ = m.target, v = window.getSelection();
+        if (v && v.rangeCount > 0) {
+          const S = v.getRangeAt(0), $ = document.createTextNode("  ");
+          S.insertNode($), S.setStartAfter($), S.setEndAfter($), v.removeAllRanges(), v.addRange(S), u.value = _.textContent || "";
+        }
+      }
+    }, A = (m) => {
+    }, O = () => {
+      const m = document.querySelector(".v-mab-syntax-textarea");
+      if (!m) return;
+      const _ = m.textContent || "";
+      if (!_.trim()) return;
+      let v = 0;
+      const S = window.getSelection();
+      if (S && S.rangeCount > 0)
+        try {
+          const $ = S.getRangeAt(0), y = $.cloneRange();
+          y.selectNodeContents(m), y.setEnd($.endContainer, $.endOffset), v = y.toString().length;
+        } catch {
+          v = _.length;
+        }
+      try {
+        const $ = JSON.parse(_), y = JSON.stringify($, null, 2), F = H.languages.json ? H.highlight(y, H.languages.json, "json") : y;
+        if (m.innerHTML = F, v > 0)
+          try {
+            const n = P(m);
+            let t = 0, i = null, c = 0;
+            for (const o of n) {
+              if (t + o.textContent.length >= v) {
+                i = o, c = v - t;
+                break;
+              }
+              t += o.textContent.length;
+            }
+            if (i && S) {
+              const o = document.createRange();
+              o.setStart(i, Math.min(c, i.textContent.length)), o.setEnd(i, Math.min(c, i.textContent.length)), S.removeAllRanges(), S.addRange(o);
+            }
+          } catch (n) {
+            console.warn("Failed to restore cursor position:", n);
+          }
+      } catch {
+        const $ = H.languages.json ? H.highlight(_, H.languages.json, "json") : _;
+        m.innerHTML = $;
+      }
+    }, P = (m) => {
+      const _ = [], v = document.createTreeWalker(m, NodeFilter.SHOW_TEXT, null);
+      let S;
+      for (; S = v.nextNode(); )
+        _.push(S);
+      return _;
     };
-    return G(f, () => {
-      be(() => {
-        Je.highlightAll();
+    return B(u, () => {
+      we(() => {
+        f.value || O();
       });
-    }, { immediate: !0 }), (h, S) => (j(), q("div", Ue, [
-      T("pre", Re, [
-        T("code", qe, D(f.value), 1)
-      ]),
-      T("div", {
+    }, { immediate: !0 }), _e(() => {
+      f.value && (clearTimeout(f.value), f.value = 0);
+    }), (m, _) => (j(), q("div", Ue, [
+      L("div", {
         contenteditable: "true",
-        class: ge(["v-syntax-textarea", i.textareaClass]),
-        onInput: s,
-        onScroll: $,
+        class: de(["v-mab-syntax-textarea", g.textareaClass]),
+        onInput: x,
+        onKeydown: s,
+        onScroll: A,
         spellcheck: "false",
-        textContent: D(u.value)
-      }, null, 42, Be)
+        textContent: J(u.value)
+      }, null, 42, qe)
     ]));
   }
-}), We = { class: "stage-number" }, Ge = { class: "preview-box" }, Ie = { class: "preview-box-content" }, He = /* @__PURE__ */ se({
+}), Be = { class: "stage-number" }, We = { class: "v-mab-preview-box" }, He = { class: "v-mab-preview-box-content" }, Ge = /* @__PURE__ */ ie({
   __name: "VStageCard",
   props: {
     stage: {},
@@ -1532,8 +1585,8 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
     totalStages: {}
   },
   emits: ["update", "delete", "move-up", "move-down"],
-  setup(i, { emit: n }) {
-    const e = i, g = n, u = N(""), f = N(""), $ = N([]), s = [
+  setup(g, { emit: a }) {
+    const e = g, p = a, u = V(""), f = V(""), x = V([]), s = [
       { title: "$match", value: "$match" },
       { title: "$group", value: "$group" },
       { title: "$project", value: "$project" },
@@ -1557,68 +1610,68 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
       { title: "$searchMeta", value: "$searchMeta" },
       { title: "$out", value: "$out" },
       { title: "$merge", value: "$merge" }
-    ], h = B(() => $.value.length > 0), S = B(() => {
+    ], A = W(() => x.value.length > 0), O = W(() => {
       try {
         return JSON.parse(f.value);
       } catch {
         return null;
       }
-    }), V = (E) => {
+    }), P = (_) => {
       try {
-        const k = JSON.parse(f.value), C = { [E]: k[Object.keys(k)[0]] || {} };
-        f.value = JSON.stringify(C, null, 2), O();
+        const v = JSON.parse(f.value), S = { [_]: v[Object.keys(v)[0]] || {} };
+        f.value = JSON.stringify(S, null, 2), m();
       } catch {
-        const k = { [E]: {} };
-        f.value = JSON.stringify(k, null, 2), O();
+        const v = { [_]: {} };
+        f.value = JSON.stringify(v, null, 2), m();
       }
-    }, O = () => {
+    }, m = () => {
       try {
-        const E = JSON.parse(f.value);
-        g("update", e.index, E);
+        const _ = JSON.parse(f.value);
+        p("update", e.index, _);
       } catch {
-        $.value = ["Invalid JSON syntax"];
+        x.value = ["Invalid JSON syntax"];
       }
     };
-    return G(() => e.stage, (E) => {
-      u.value = Object.keys(E)[0] || "", f.value = JSON.stringify(E, null, 2), $.value = [];
-    }, { immediate: !0 }), G(f, () => {
-      $.value = [], O();
-    }), (E, k) => {
-      const C = _("v-col"), A = _("v-chip"), b = _("v-select"), x = _("v-btn"), a = _("v-btn-group"), t = _("v-row"), o = _("v-expansion-panel-title"), c = _("v-alert"), p = _("v-expansion-panel-text"), d = _("v-expansion-panel");
-      return j(), z(d, null, {
-        default: y(() => [
-          v(o, null, {
-            default: y(() => [
-              v(t, { align: "center" }, {
-                default: y(() => [
-                  v(C, { cols: "auto" }, {
-                    default: y(() => [
-                      T("span", We, "Stage " + D(i.index + 1), 1)
+    return B(() => e.stage, (_) => {
+      u.value = Object.keys(_)[0] || "", f.value = JSON.stringify(_, null, 2), x.value = [];
+    }, { immediate: !0 }), B(f, () => {
+      x.value = [], m();
+    }), (_, v) => {
+      const S = k("v-col"), $ = k("v-chip"), y = k("v-select"), F = k("v-btn"), n = k("v-btn-group"), t = k("v-row"), i = k("v-expansion-panel-title"), c = k("v-alert"), o = k("v-expansion-panel-text"), d = k("v-expansion-panel");
+      return j(), R(d, null, {
+        default: w(() => [
+          h(i, null, {
+            default: w(() => [
+              h(t, { align: "center" }, {
+                default: w(() => [
+                  h(S, { cols: "auto" }, {
+                    default: w(() => [
+                      L("span", Be, "Stage " + J(g.index + 1), 1)
                     ]),
                     _: 1
                   }),
-                  v(C, { cols: "auto" }, {
-                    default: y(() => [
-                      v(A, {
+                  h(S, { cols: "auto" }, {
+                    default: w(() => [
+                      h($, {
                         size: "small",
                         color: "primary",
                         variant: "outlined"
                       }, {
-                        default: y(() => [
-                          J(D(u.value || "Select Type"), 1)
+                        default: w(() => [
+                          D(J(u.value || "Select Type"), 1)
                         ]),
                         _: 1
                       })
                     ]),
                     _: 1
                   }),
-                  v(C, null, {
-                    default: y(() => [
-                      v(b, {
+                  h(S, null, {
+                    default: w(() => [
+                      h(y, {
                         modelValue: u.value,
                         "onUpdate:modelValue": [
-                          k[0] || (k[0] = (l) => u.value = l),
-                          V
+                          v[0] || (v[0] = (l) => u.value = l),
+                          P
                         ],
                         items: s,
                         label: "Stage Type",
@@ -1628,30 +1681,30 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
                     ]),
                     _: 1
                   }),
-                  v(C, { cols: "auto" }, {
-                    default: y(() => [
-                      v(a, null, {
-                        default: y(() => [
-                          i.index > 0 ? (j(), z(x, {
+                  h(S, { cols: "auto" }, {
+                    default: w(() => [
+                      h(n, null, {
+                        default: w(() => [
+                          g.index > 0 ? (j(), R(F, {
                             key: 0,
                             icon: "mdi-arrow-up",
                             size: "small",
                             variant: "text",
-                            onClick: k[1] || (k[1] = ce((l) => E.$emit("move-up", i.index), ["stop"]))
+                            onClick: v[1] || (v[1] = ge((l) => _.$emit("move-up", g.index), ["stop"]))
                           })) : I("", !0),
-                          i.index < i.totalStages - 1 ? (j(), z(x, {
+                          g.index < g.totalStages - 1 ? (j(), R(F, {
                             key: 1,
                             icon: "mdi-arrow-down",
                             size: "small",
                             variant: "text",
-                            onClick: k[2] || (k[2] = ce((l) => E.$emit("move-down", i.index), ["stop"]))
+                            onClick: v[2] || (v[2] = ge((l) => _.$emit("move-down", g.index), ["stop"]))
                           })) : I("", !0),
-                          v(x, {
+                          h(F, {
                             icon: "mdi-delete-outline",
                             size: "small",
                             color: "error",
                             variant: "text",
-                            onClick: k[3] || (k[3] = ce((l) => E.$emit("delete", i.index), ["stop"]))
+                            onClick: v[3] || (v[3] = ge((l) => _.$emit("delete", g.index), ["stop"]))
                           })
                         ]),
                         _: 1
@@ -1665,30 +1718,30 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
             ]),
             _: 1
           }),
-          v(p, null, {
-            default: y(() => [
-              h.value ? (j(!0), q(W, { key: 0 }, re($.value, (l) => (j(), z(c, {
+          h(o, null, {
+            default: w(() => [
+              A.value ? (j(!0), q(G, { key: 0 }, se(x.value, (l) => (j(), R(c, {
                 key: l,
                 type: "error",
                 density: "compact",
                 class: "mb-1"
               }, {
-                default: y(() => [
-                  J(D(l), 1)
+                default: w(() => [
+                  D(J(l), 1)
                 ]),
                 _: 2
               }, 1024))), 128)) : I("", !0),
-              v(t, null, {
-                default: y(() => [
-                  v(C, {
+              h(t, null, {
+                default: w(() => [
+                  h(S, {
                     cols: "12",
                     md: "8"
                   }, {
-                    default: y(() => [
-                      v(me, {
+                    default: w(() => [
+                      h(he, {
                         modelValue: f.value,
-                        "onUpdate:modelValue": k[4] || (k[4] = (l) => f.value = l),
-                        class: ge({ "text-error": h.value }),
+                        "onUpdate:modelValue": v[4] || (v[4] = (l) => f.value = l),
+                        class: de({ "text-error": A.value }),
                         label: "Stage Configuration (JSON)",
                         placeholder: '{"$match": {"status": "active"}}',
                         rows: 8
@@ -1696,15 +1749,15 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
                     ]),
                     _: 1
                   }),
-                  v(C, {
+                  h(S, {
                     cols: "12",
                     md: "4"
                   }, {
-                    default: y(() => [
-                      T("div", Ge, [
-                        k[5] || (k[5] = T("div", { class: "preview-box-label" }, " Preview ", -1)),
-                        T("div", Ie, [
-                          T("pre", null, D(JSON.stringify(S.value, null, 2)), 1)
+                    default: w(() => [
+                      L("div", We, [
+                        v[5] || (v[5] = L("div", { class: "v-mab-preview-box-label" }, " Preview ", -1)),
+                        L("div", He, [
+                          L("pre", null, J(JSON.stringify(O.value, null, 2)), 1)
                         ])
                       ])
                     ]),
@@ -1721,81 +1774,81 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
       });
     };
   }
-}), he = (i, n) => {
-  const e = i.__vccOpts || i;
-  for (const [g, u] of n)
-    e[g] = u;
+}), ye = (g, a) => {
+  const e = g.__vccOpts || g;
+  for (const [p, u] of a)
+    e[p] = u;
   return e;
-}, Ze = /* @__PURE__ */ he(He, [["__scopeId", "data-v-d84dc298"]]), Xe = /* @__PURE__ */ se({
+}, Ie = /* @__PURE__ */ ye(Ge, [["__scopeId", "data-v-d6bb770e"]]), Ze = /* @__PURE__ */ ie({
   __name: "VOutputPanel",
   props: {
     pipeline: {}
   },
   emits: ["export"],
-  setup(i, { emit: n }) {
-    const e = i, g = N("json"), u = B(() => JSON.stringify(e.pipeline, null, 2)), f = B(() => `db.collection.aggregate(${JSON.stringify(e.pipeline, null, 2)})`);
-    return ($, s) => {
-      const h = _("v-spacer"), S = _("v-btn"), V = _("v-card-title"), O = _("v-tab"), E = _("v-tabs"), k = _("v-window-item"), C = _("v-window"), A = _("v-card-text"), b = _("v-card"), x = _("v-col"), a = _("v-row");
-      return j(), z(a, null, {
-        default: y(() => [
-          v(x, null, {
-            default: y(() => [
-              v(b, null, {
-                default: y(() => [
-                  v(V, { class: "d-flex align-center" }, {
-                    default: y(() => [
-                      s[4] || (s[4] = T("span", null, "Output", -1)),
-                      v(h),
-                      v(S, {
-                        onClick: s[0] || (s[0] = (t) => $.$emit("export")),
+  setup(g, { emit: a }) {
+    const e = g, p = V("json"), u = W(() => JSON.stringify(e.pipeline, null, 2)), f = W(() => `db.collection.aggregate(${JSON.stringify(e.pipeline, null, 2)})`);
+    return (x, s) => {
+      const A = k("v-spacer"), O = k("v-btn"), P = k("v-card-title"), m = k("v-tab"), _ = k("v-tabs"), v = k("v-window-item"), S = k("v-window"), $ = k("v-card-text"), y = k("v-card"), F = k("v-col"), n = k("v-row");
+      return j(), R(n, null, {
+        default: w(() => [
+          h(F, null, {
+            default: w(() => [
+              h(y, null, {
+                default: w(() => [
+                  h(P, { class: "d-flex align-center" }, {
+                    default: w(() => [
+                      s[4] || (s[4] = L("span", null, "Output", -1)),
+                      h(A),
+                      h(O, {
+                        onClick: s[0] || (s[0] = (t) => x.$emit("export")),
                         size: "small"
                       }, {
-                        default: y(() => [...s[3] || (s[3] = [
-                          J(" Export ", -1)
+                        default: w(() => [...s[3] || (s[3] = [
+                          D(" Export ", -1)
                         ])]),
                         _: 1
                       })
                     ]),
                     _: 1
                   }),
-                  v(A, null, {
-                    default: y(() => [
-                      v(E, {
-                        modelValue: g.value,
-                        "onUpdate:modelValue": s[1] || (s[1] = (t) => g.value = t),
+                  h($, null, {
+                    default: w(() => [
+                      h(_, {
+                        modelValue: p.value,
+                        "onUpdate:modelValue": s[1] || (s[1] = (t) => p.value = t),
                         color: "primary"
                       }, {
-                        default: y(() => [
-                          v(O, { value: "json" }, {
-                            default: y(() => [...s[5] || (s[5] = [
-                              J("JSON", -1)
+                        default: w(() => [
+                          h(m, { value: "json" }, {
+                            default: w(() => [...s[5] || (s[5] = [
+                              D("JSON", -1)
                             ])]),
                             _: 1
                           }),
-                          v(O, { value: "query" }, {
-                            default: y(() => [...s[6] || (s[6] = [
-                              J("Query", -1)
+                          h(m, { value: "query" }, {
+                            default: w(() => [...s[6] || (s[6] = [
+                              D("Query", -1)
                             ])]),
                             _: 1
                           })
                         ]),
                         _: 1
                       }, 8, ["modelValue"]),
-                      v(C, {
-                        modelValue: g.value,
-                        "onUpdate:modelValue": s[2] || (s[2] = (t) => g.value = t),
+                      h(S, {
+                        modelValue: p.value,
+                        "onUpdate:modelValue": s[2] || (s[2] = (t) => p.value = t),
                         class: "mt-4"
                       }, {
-                        default: y(() => [
-                          v(k, { value: "json" }, {
-                            default: y(() => [
-                              T("pre", null, D(u.value), 1)
+                        default: w(() => [
+                          h(v, { value: "json" }, {
+                            default: w(() => [
+                              L("pre", null, J(u.value), 1)
                             ]),
                             _: 1
                           }),
-                          v(k, { value: "query" }, {
-                            default: y(() => [
-                              T("pre", null, D(f.value), 1)
+                          h(v, { value: "query" }, {
+                            default: w(() => [
+                              L("pre", null, J(f.value), 1)
                             ]),
                             _: 1
                           })
@@ -1816,51 +1869,53 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
       });
     };
   }
-}), Ye = /* @__PURE__ */ he(Xe, [["__scopeId", "data-v-b28ddba9"]]), Ke = {
+}), Ke = /* @__PURE__ */ ye(Ze, [["__scopeId", "data-v-b28ddba9"]]), Xe = {
   key: 0,
   class: "validation-errors mt-2"
-}, Qe = { class: "d-flex align-center mb-2" }, tt = /* @__PURE__ */ se({
+}, Ye = { class: "d-flex align-center mb-2" }, et = /* @__PURE__ */ ie({
   __name: "VMongoAggregationBuilder",
   props: {
     initialPipeline: { default: () => [] }
   },
   emits: ["pipelineChange", "exportPipeline"],
-  setup(i, { emit: n }) {
-    const e = i, g = n, u = N(e.initialPipeline || []), f = N("stages"), $ = N(""), s = N([]), h = B(() => s.value.length > 0), S = N(e.initialPipeline ? e.initialPipeline.map((l, r) => r) : []), V = N(JSON.stringify(e.initialPipeline || [], null, 2)), O = B(() => JSON.stringify(u.value, null, 2));
-    G(u, () => {
-      f.value === "text" && (V.value = O.value);
-    }, { deep: !0 });
-    const E = [
+  setup(g, { emit: a }) {
+    const e = g, p = a, u = V(e.initialPipeline || []), f = V("stages"), x = V(""), s = V([]), A = W(() => s.value.length > 0), O = V(e.initialPipeline ? e.initialPipeline.map((l, r) => r) : []), P = V(JSON.stringify(e.initialPipeline || [], null, 2)), m = W(() => JSON.stringify(u.value, null, 2));
+    B(u, () => {
+      f.value === "text" && (P.value = m.value);
+    }, { deep: !0 }), B(f, (l) => {
+      l === "text" && (P.value = m.value);
+    });
+    const _ = [
       { title: "Stages View", value: "stages" },
       { title: "Text View", value: "text" }
-    ], k = () => {
-      g("exportPipeline", u.value);
-    }, C = () => {
-      g("pipelineChange", u.value);
-    }, A = () => {
-      u.value.length, u.value.push({ $match: { status: "active" } }), C();
-    }, b = () => {
-      S.value = u.value.map((l, r) => r);
-    }, x = () => {
-      S.value = [];
-    }, a = (l) => {
-      u.value.splice(l, 1), S.value = S.value.filter((r) => r !== l).map((r) => r > l ? r - 1 : r), d(O.value), C();
+    ], v = () => {
+      p("exportPipeline", u.value);
+    }, S = () => {
+      p("pipelineChange", u.value);
+    }, $ = () => {
+      u.value.length, u.value.push({ $match: { status: "active" } }), S();
+    }, y = () => {
+      O.value = u.value.map((l, r) => r);
+    }, F = () => {
+      O.value = [];
+    }, n = (l) => {
+      u.value.splice(l, 1), O.value = O.value.filter((r) => r !== l).map((r) => r > l ? r - 1 : r), d(m.value), S();
     }, t = (l, r) => {
-      u.value[l] = r, d(O.value), C();
-    }, o = (l) => {
+      u.value[l] = r, d(m.value), S();
+    }, i = (l) => {
       if (l > 0) {
         [u.value[l - 1], u.value[l]] = [u.value[l], u.value[l - 1]];
-        const r = [...S.value], m = r.indexOf(l), w = r.indexOf(l - 1);
-        m !== -1 && (r[m] = l - 1), w !== -1 && (r[w] = l), S.value = r, d(O.value), C();
+        const r = [...O.value], b = r.indexOf(l), E = r.indexOf(l - 1);
+        b !== -1 && (r[b] = l - 1), E !== -1 && (r[E] = l), O.value = r, d(m.value), S();
       }
     }, c = (l) => {
       if (l < u.value.length - 1) {
         [u.value[l], u.value[l + 1]] = [u.value[l + 1], u.value[l]];
-        const r = [...S.value], m = r.indexOf(l), w = r.indexOf(l + 1);
-        m !== -1 && (r[m] = l + 1), w !== -1 && (r[w] = l), S.value = r, d(O.value), C();
+        const r = [...O.value], b = r.indexOf(l), E = r.indexOf(l + 1);
+        b !== -1 && (r[b] = l + 1), E !== -1 && (r[E] = l), O.value = r, d(m.value), S();
       }
-    }, p = () => {
-      d(V.value);
+    }, o = () => {
+      d(P.value);
     }, d = (l) => {
       if (s.value = [], !!l.trim())
         try {
@@ -1869,72 +1924,72 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
             s.value.push("Aggregation pipeline must be an array of stage objects");
             return;
           }
-          const m = Se(l);
-          m.isValid || (s.value = m.errors.map((w) => w.message)), m.warnings.length > 0 && m.warnings.forEach((w) => {
-            s.value.push(`Warning: ${w.message}`);
+          const b = ke(l);
+          b.isValid || (s.value = b.errors.map((E) => E.message)), b.warnings.length > 0 && b.warnings.forEach((E) => {
+            s.value.push(`Warning: ${E.message}`);
           });
         } catch {
           s.value = ["Invalid JSON syntax"];
         }
     };
     return (l, r) => {
-      const m = _("v-btn"), w = _("v-btn-toggle"), M = _("v-spacer"), Y = _("v-toolbar"), H = _("v-alert"), ie = _("v-expansion-panels"), K = _("v-col"), Q = _("v-row"), P = _("v-sheet");
-      return j(), z(P, null, {
-        default: y(() => [
-          v(Q, null, {
-            default: y(() => [
-              v(K, {
+      const b = k("v-btn"), E = k("v-btn-toggle"), M = k("v-spacer"), Y = k("v-toolbar"), Z = k("v-alert"), oe = k("v-expansion-panels"), Q = k("v-col"), ee = k("v-row"), T = k("v-sheet");
+      return j(), R(T, null, {
+        default: w(() => [
+          h(ee, null, {
+            default: w(() => [
+              h(Q, {
                 cols: "12",
                 md: "8"
               }, {
-                default: y(() => [
+                default: w(() => [
                   X(l.$slots, "toolbar", {
                     stages: u.value,
                     viewMode: f.value,
-                    addStage: A,
-                    expandAllStages: b,
-                    collapseAllStages: x,
-                    exportPipeline: k,
-                    viewModeOptions: E
+                    addStage: $,
+                    expandAllStages: y,
+                    collapseAllStages: F,
+                    exportPipeline: v,
+                    viewModeOptions: _
                   }, () => [
-                    v(Y, null, {
-                      default: y(() => [
+                    h(Y, null, {
+                      default: w(() => [
                         X(l.$slots, "toolbar-prepend"),
-                        v(m, {
-                          onClick: A,
+                        h(b, {
+                          onClick: $,
                           class: "mx-3"
                         }, {
-                          default: y(() => [...r[3] || (r[3] = [
-                            J(" Add Stage ", -1)
+                          default: w(() => [...r[3] || (r[3] = [
+                            D(" Add Stage ", -1)
                           ])]),
                           _: 1
                         }),
-                        v(w, {
+                        h(E, {
                           modelValue: f.value,
-                          "onUpdate:modelValue": r[0] || (r[0] = (F) => f.value = F),
+                          "onUpdate:modelValue": r[0] || (r[0] = (C) => f.value = C),
                           label: "View Mode"
                         }, {
-                          default: y(() => [
-                            (j(), q(W, null, re(E, (F) => v(m, {
-                              key: F.value,
-                              value: F.value
+                          default: w(() => [
+                            (j(), q(G, null, se(_, (C) => h(b, {
+                              key: C.value,
+                              value: C.value
                             }, {
-                              default: y(() => [
-                                J(D(F.title), 1)
+                              default: w(() => [
+                                D(J(C.title), 1)
                               ]),
                               _: 2
                             }, 1032, ["value"])), 64))
                           ]),
                           _: 1
                         }, 8, ["modelValue"]),
-                        v(M),
-                        f.value === "stages" ? (j(), q(W, { key: 0 }, [
-                          v(m, {
-                            onClick: b,
+                        h(M),
+                        f.value === "stages" ? (j(), q(G, { key: 0 }, [
+                          h(b, {
+                            onClick: y,
                             icon: "mdi-chevron-down"
                           }),
-                          v(m, {
-                            onClick: x,
+                          h(b, {
+                            onClick: F,
                             icon: "mdi-chevron-up"
                           })
                         ], 64)) : I("", !0),
@@ -1945,72 +2000,72 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
                   ]),
                   X(l.$slots, "validation", {
                     errors: s.value,
-                    hasErrors: h.value,
-                    error: $.value
+                    hasErrors: A.value,
+                    error: x.value
                   }, () => [
-                    h.value ? (j(), q("div", Ke, [
-                      (j(!0), q(W, null, re(s.value, (F) => (j(), z(H, {
-                        key: F,
+                    A.value ? (j(), q("div", Xe, [
+                      (j(!0), q(G, null, se(s.value, (C) => (j(), R(Z, {
+                        key: C,
                         type: "error",
                         density: "compact",
                         class: "mb-1"
                       }, {
-                        default: y(() => [
-                          J(D(F), 1)
+                        default: w(() => [
+                          D(J(C), 1)
                         ]),
                         _: 2
                       }, 1024))), 128))
                     ])) : I("", !0),
-                    $.value ? (j(), z(H, {
+                    x.value ? (j(), R(Z, {
                       key: 1,
                       type: "error",
                       class: "mt-4"
                     }, {
-                      default: y(() => [
-                        r[4] || (r[4] = T("strong", null, "Error:", -1)),
-                        J(" " + D($.value), 1)
+                      default: w(() => [
+                        r[4] || (r[4] = L("strong", null, "Error:", -1)),
+                        D(" " + J(x.value), 1)
                       ]),
                       _: 1
                     })) : I("", !0)
                   ]),
-                  f.value === "stages" ? (j(), z(ie, {
+                  f.value === "stages" ? (j(), R(oe, {
                     key: 0,
-                    modelValue: S.value,
-                    "onUpdate:modelValue": r[1] || (r[1] = (F) => S.value = F),
+                    modelValue: O.value,
+                    "onUpdate:modelValue": r[1] || (r[1] = (C) => O.value = C),
                     multiple: ""
                   }, {
-                    default: y(() => [
-                      (j(!0), q(W, null, re(u.value, (F, U) => (j(), z(Ze, {
-                        key: U,
-                        stage: F,
-                        index: U,
+                    default: w(() => [
+                      (j(!0), q(G, null, se(u.value, (C, z) => (j(), R(Ie, {
+                        key: z,
+                        stage: C,
+                        index: z,
                         "total-stages": u.value.length,
                         onUpdate: t,
-                        onDelete: a,
-                        onMoveUp: o,
+                        onDelete: n,
+                        onMoveUp: i,
                         onMoveDown: c
                       }, null, 8, ["stage", "index", "total-stages"]))), 128))
                     ]),
                     _: 1
-                  }, 8, ["modelValue"])) : (j(), q(W, { key: 1 }, [
-                    T("div", Qe, [
-                      v(M),
-                      v(m, {
+                  }, 8, ["modelValue"])) : (j(), q(G, { key: 1 }, [
+                    L("div", Ye, [
+                      h(M),
+                      h(b, {
                         size: "small",
-                        onClick: p,
+                        onClick: o,
                         color: "primary",
                         variant: "outlined"
                       }, {
-                        default: y(() => [...r[5] || (r[5] = [
-                          J(" Validate ", -1)
+                        default: w(() => [...r[5] || (r[5] = [
+                          D(" Validate ", -1)
                         ])]),
                         _: 1
                       })
                     ]),
-                    v(me, {
-                      modelValue: V.value,
-                      "onUpdate:modelValue": r[2] || (r[2] = (F) => V.value = F),
-                      class: ge({ "text-error": h.value }),
+                    h(he, {
+                      modelValue: P.value,
+                      "onUpdate:modelValue": r[2] || (r[2] = (C) => P.value = C),
+                      class: de({ "text-error": A.value }),
                       label: "Aggregation Pipeline JSON",
                       placeholder: "Paste your aggregation pipeline JSON here...",
                       rows: 15
@@ -2019,14 +2074,14 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
                 ]),
                 _: 3
               }),
-              v(K, {
+              h(Q, {
                 cols: "12",
                 md: "4"
               }, {
-                default: y(() => [
-                  v(Ye, {
+                default: w(() => [
+                  h(Ke, {
                     pipeline: u.value,
-                    onExport: k
+                    onExport: v
                   }, null, 8, ["pipeline"]),
                   X(l.$slots, "output", { pipeline: u.value })
                 ]),
@@ -2042,5 +2097,5 @@ const Ue = { class: "v-syntax-highlighted-textarea" }, Re = { class: "v-syntax-h
   }
 });
 export {
-  tt as VMongoAggregationBuilder
+  et as VMongoAggregationBuilder
 };

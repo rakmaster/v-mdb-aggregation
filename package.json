@@ -1,6 +1,6 @@
 {
   "name": "@rakmaster/v-mdb-aggregation",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Vuetify-based GUI component for building MongoDB aggregation pipelines, inspired by MongoDB Compass",
   "keywords": [
     "mongodb",

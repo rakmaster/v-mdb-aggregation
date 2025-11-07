@@ -139,6 +139,13 @@ watch(stages, () => {
   }
 }, { deep: true })
 
+// Watch for view mode changes to sync textarea content when switching to text view
+watch(viewMode, (newMode) => {
+  if (newMode === 'text') {
+    textAreaContent.value = pipelineJson.value
+  }
+})
+
 const viewModeOptions = [
   { title: 'Stages View', value: 'stages' },
   { title: 'Text View', value: 'text' }
