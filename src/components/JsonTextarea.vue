@@ -86,16 +86,15 @@ watch(highlightedCode, () => {
 .syntax-highlighted-textarea {
   position: relative;
   width: 100%;
-  display: grid;
-  grid-template-areas: "content";
-}
-
-.syntax-highlighted-code,
-.syntax-textarea {
-  grid-area: content;
+  display: inline-block;
+  min-width: 100%;
 }
 
 .syntax-highlighted-code {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   margin: 0;
   padding: 12px 16px;
   font-family: 'Roboto Mono', 'Courier New', monospace;
@@ -110,6 +109,7 @@ watch(highlightedCode, () => {
   word-wrap: break-word;
   tab-size: 2;
   pointer-events: none;
+  z-index: 1;
   /* Ensure it matches textarea sizing */
   box-sizing: border-box;
 }
@@ -124,7 +124,7 @@ watch(highlightedCode, () => {
   background: transparent;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 4px;
-  color: transparent;
+  color: rgba(0, 0, 0, 0.87);
   caret-color: rgba(0, 0, 0, 0.87);
   outline: none;
   overflow: auto;
@@ -133,6 +133,7 @@ watch(highlightedCode, () => {
   tab-size: 2;
   resize: vertical;
   box-sizing: border-box;
+  z-index: 2;
   min-height: 200px; /* Minimum height for usability */
 }
 

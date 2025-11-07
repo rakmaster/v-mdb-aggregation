@@ -1530,7 +1530,7 @@ const qe = { class: "syntax-highlighted-textarea" }, Be = { class: "syntax-highl
   for (const [g, u] of r)
     e[g] = u;
   return e;
-}, he = /* @__PURE__ */ de(He, [["__scopeId", "data-v-f6255231"]]), Ie = { class: "stage-number" }, Ze = { class: "preview-box" }, Xe = { class: "preview-box-content" }, Ye = /* @__PURE__ */ se({
+}, he = /* @__PURE__ */ de(He, [["__scopeId", "data-v-61737318"]]), Ie = { class: "stage-number" }, Ze = { class: "preview-box" }, Xe = { class: "preview-box-content" }, Ye = /* @__PURE__ */ se({
   __name: "VStageCard",
   props: {
     stage: {},
